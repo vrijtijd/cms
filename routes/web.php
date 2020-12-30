@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\RepositoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::middleware(['auth:sanctum', 'verified'])->group(function() {
+    Route::get('/', function () { return view('dashboard'); })->name('dashboard');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+    Route::redirect('/admin', '/admin/repositories')->name('admin');
+    Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function() {
+        Route::resource('repositories', RepositoryController::class)->only('index', 'store', 'destroy');
+    });
+});
