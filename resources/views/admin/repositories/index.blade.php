@@ -2,7 +2,7 @@
     <h1 class="text-3xl font-bold">Repositories</h1>
 
     <div class="bg-white rounded shadow p-4 my-4">
-        <x-repositories.create-form/>
+        <x-repositories.create-form :teams="$teams"/>
     </div>
 
     <div class="flex flex-col">

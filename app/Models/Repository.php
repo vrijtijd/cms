@@ -13,5 +13,6 @@ class Repository extends Model
         'name',
         'url',
         'website',
+        'team_id',
     ];
 }

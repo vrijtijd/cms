@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Repository;
+use App\Models\Team;
 use App\Services\RepoManager;
 use Illuminate\Http\Request;
 
@@ -12,6 +13,7 @@ class RepositoryController extends Controller
     public function index() {
         return view('admin.repositories.index', [
             'repositories' => Repository::all(),
+            'teams' => Team::all(),
         ]);
     }
 
@@ -20,12 +22,14 @@ class RepositoryController extends Controller
             'name' => 'required',
             'url' => 'required',
             'website' => 'nullable|url',
+            'team' => 'integer|exists:teams,id',
         ]);
 
         $repoManager->createRepository(
             $request->input('name'),
             $request->input('url'),
             $request->input('website', ''),
+            $request->input('team'),
         );
 
         return back();

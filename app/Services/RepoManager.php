@@ -18,7 +18,8 @@ class RepoManager {
     public function createRepository(
         string $name,
         string $url,
-        string $website = ''
+        string $website,
+        int $teamId
     ) {
         $this->gitWrapper->cloneRepository($url, $this->getRepositoryDirectory($name));
 
@@ -26,6 +27,7 @@ class RepoManager {
             'name' => $name,
             'url' => $url,
             'website' => $website,
+            'team_id' => $teamId,
         ]);
     }
 
