@@ -2,7 +2,13 @@
 
 <tr class="whitespace-nowrap text-sm text-gray-900">
     <td class="px-6 py-4">
-        {{ $repository->name }}
+        @if ($repository->website)
+            <a href="{{ $repository->website }}" target="_blank" class="text-blue-600 hover:text-blue-800">
+                {{ $repository->name }}
+            </a>
+        @else
+            {{ $repository->name }}
+        @endif
     </td>
     <td class="px-6 py-4">
         {{ $repository->url }}
@@ -11,7 +17,6 @@
         Team name
     </td>
     <td class="px-6 py-4">
-        Website
     </td>
     <td class="px-6 py-4">
         <x-form-button

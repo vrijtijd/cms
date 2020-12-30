@@ -15,12 +15,17 @@ class RepoManager {
     }
 
 
-    public function createRepository(string $name, string $url) {
+    public function createRepository(
+        string $name,
+        string $url,
+        string $website = ''
+    ) {
         $this->gitWrapper->cloneRepository($url, $this->getRepositoryDirectory($name));
 
         Repository::create([
             'name' => $name,
             'url' => $url,
+            'website' => $website,
         ]);
     }
 

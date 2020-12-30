@@ -12,5 +12,6 @@ class Repository extends Model
     protected $fillable = [
         'name',
         'url',
+        'website',
     ];
 }

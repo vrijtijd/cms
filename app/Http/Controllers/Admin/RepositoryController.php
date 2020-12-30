@@ -19,9 +19,14 @@ class RepositoryController extends Controller
         $request->validate([
             'name' => 'required',
             'url' => 'required',
+            'website' => 'nullable|url',
         ]);
 
-        $repoManager->createRepository($request->input('name'), $request->input('url'));
+        $repoManager->createRepository(
+            $request->input('name'),
+            $request->input('url'),
+            $request->input('website', ''),
+        );
 
         return back();
     }
