@@ -6,6 +6,8 @@ use App\Models\Repository;
 use GitWrapper\GitWrapper;
 use Illuminate\Support\Str;
 
+use function Psy\debug;
+
 class RepoManager {
     private $gitWrapper;
 
@@ -38,6 +40,21 @@ class RepoManager {
         shell_exec("rm -rf $directory");
 
         $repository->delete();
+    }
+
+    public function getArchetypes(Repository $repository) {
+        $rootDir = $this->getRepositoryDirectory($repository->name);
+
+        $archetypeFiles = array_merge(
+            glob($rootDir . '/archetypes/*.md'),
+            glob($rootDir . '/themes/**/archetypes/*.md'),
+        );
+
+        return array_unique(array_map(function (string $file) {
+            $basename = Str::of($file)->basename('.md');
+
+            return Str::title(implode(' ', explode('-', $basename)));
+        }, $archetypeFiles));
     }
 
     private function getRepositoryDirectory(string $name) {

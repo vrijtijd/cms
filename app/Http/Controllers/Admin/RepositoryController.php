@@ -17,6 +17,12 @@ class RepositoryController extends Controller
         ]);
     }
 
+    public function show(Repository $repository) {
+        return view('repositories.show', [
+            'repository' => $repository,
+        ]);
+    }
+
     public function store(Request $request, RepoManager $repoManager) {
         $request->validate([
             'name' => 'required',

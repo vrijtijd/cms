@@ -2,18 +2,22 @@
 
 namespace App\View\Components;
 
+use App\Models\Repository;
+use App\Services\RepoManager;
 use Illuminate\View\Component;
 
 class RepoSidebar extends Component
 {
+    public $archetypes;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Repository $repository, RepoManager $repoManager)
     {
-        //
+        $this->archetypes = $repoManager->getArchetypes($repository);
     }
 
     /**

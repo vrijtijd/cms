@@ -15,4 +15,8 @@ class Repository extends Model
         'website',
         'team_id',
     ];
+
+    public function team() {
+        return $this->belongsTo(Team::class);
+    }
 }
