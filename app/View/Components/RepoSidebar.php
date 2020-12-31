@@ -8,6 +8,7 @@ use Illuminate\View\Component;
 
 class RepoSidebar extends Component
 {
+    public $repository;
     public $archetypes;
 
     /**
@@ -17,6 +18,7 @@ class RepoSidebar extends Component
      */
     public function __construct(Repository $repository, RepoManager $repoManager)
     {
+        $this->repository = $repository;
         $this->archetypes = $repoManager->getArchetypes($repository);
     }
 

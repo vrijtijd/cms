@@ -16,7 +16,7 @@
     <td class="px-6 py-4">
         Team name
     </td>
-    <td class="px-6 py-4">
+    <td class="px-6 py-4 text-right">
         <x-form-button
             :action="route('admin.repositories.destroy', $repository->id)"
             method="DELETE"

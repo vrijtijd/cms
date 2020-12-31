@@ -12,11 +12,13 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        @stack('styles')
 
         @livewireStyles
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+        @stack('scripts')
     </head>
     <body class="font-sans antialiased">
         <div class="flex flex-col min-h-screen bg-gray-100">
