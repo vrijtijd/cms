@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Repository;
+use DateTime;
 use GitWrapper\GitWrapper;
 use Illuminate\Support\Str;
 use Symfony\Component\Yaml\Yaml;
@@ -77,6 +78,18 @@ class RepoManager {
         return new ContentFile($path);
     }
 
+    public function createContentFile(Repository $repository, string $archetype, $title) {
+        if (!trim($title)) $title = strtotime('now');
+
+        $slug = Str::slug($title);
+
+        $rootDir = $this->getRepositoryDirectory($repository->name);
+
+        shell_exec("cd $rootDir && hugo new $archetype/$slug.md");
+
+        return new ContentFile("$rootDir/content/$archetype/$slug.md");
+    }
+
     public function deleteContent(Repository $repository, string $archetype, string $slug) {
         $path = implode('/', [
             $this->getRepositoryDirectory($repository->name),
@@ -142,6 +155,16 @@ class ContentFile {
         $this->body = $body;
 
         $fileHandle = fopen($this->path, 'w');
+
+        foreach ($frontMatter as $key => $value) {
+            if ($value === 'true' || $value === 'false') {
+                $frontMatter[$key] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+            } elseif (is_numeric($value)) {
+                $frontMatter[$key] = $value + 0;
+            } elseif (strtotime($value)) {
+                $frontMatter[$key] = new DateTime($value);
+            }
+        }
 
         $frontMatterYaml = trim(Yaml::dump($frontMatter));
         $body = str_replace("\r", '', $body);

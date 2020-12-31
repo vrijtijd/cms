@@ -3,6 +3,25 @@
         {{ $archetype }}
     </h1>
 
+    <div class="mt-4">
+        <x-form
+            method="POST"
+            action="{{ route('repositories.content.store', [$repository->id, $archetype]) }}"
+            x-data=""
+        >
+            <div class="flex items-end">
+                <div class="w-full">
+                    <x-repositories.content.text-input label="Title" name="title" :value="''"/>
+                </div>
+                <div>
+                    <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Create
+                    </button>
+                </div>
+            </div>
+        </x-form>
+    </div>
+
     <table class="min-w-full divide-y divide-gray-200 mt-4">
         <thead class="bg-gray-50">
             <tr>
@@ -41,5 +60,4 @@
             @endforeach
         </tbody>
     </table>
-
 </x-repo-layout>

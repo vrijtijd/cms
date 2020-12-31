@@ -23,6 +23,24 @@ class RepositoryContentController extends Controller
         ]);
     }
 
+    public function store(Request $request, Repository $repository, string $archetype, RepoManager $repoManager) {
+        if (!$repoManager->isValidArchetype($repository, $archetype)) {
+            return redirect()->route('repositories.show', $repository->id);
+        }
+
+        $contentFile = $repoManager->createContentFile(
+            $repository,
+            $archetype,
+            $request->input('title')
+        );
+
+        return redirect()->route('repositories.content.edit', [
+            $repository->id,
+            $archetype,
+            $contentFile->getSlug(),
+        ]);
+    }
+
     public function edit(Repository $repository, string $archetype, string $slug, RepoManager $repoManager) {
         if (!$repoManager->isValidArchetype($repository, $archetype)) {
             return redirect()->route('repositories.show', $repository->id);

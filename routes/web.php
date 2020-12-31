@@ -24,6 +24,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
 
         Route::prefix('repositories/{repository}')->name('repositories.content.')->group(function() {
             Route::get('{archetype}', [RepositoryContentController::class, 'index'])->name('index');
+            Route::post('{archetype}', [RepositoryContentController::class, 'store'])->name('store');
             Route::get('{archetype}/{slug}', [RepositoryContentController::class, 'edit'])->name('edit');
             Route::put('{archetype}/{slug}', [RepositoryContentController::class, 'update'])->name('update');
             Route::delete('{archetype}/{slug}', [RepositoryContentController::class, 'destroy'])->name('destroy');

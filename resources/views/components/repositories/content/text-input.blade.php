@@ -1,7 +1,7 @@
 @props(['label', 'name', 'value'])
 
 <div class="sm:col-span-4">
-    <x-label for="{{ $label }}" class="block text-sm font-medium text-gray-700">
+    <x-label :for="$label" class="block text-sm font-medium text-gray-700">
         {{ $label }}
     </x-label>
     <div class="mt-1 flex rounded-md shadow-sm">
