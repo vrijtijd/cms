@@ -27,21 +27,28 @@ class RepoManager {
         string $website,
         int $teamId
     ) {
-        $this->gitWrapper->cloneRepository($url, $this->getRepositoryDirectory($name));
+        $dir = $this->getRepositoryDirectory($name);
+        $this->gitWrapper->cloneRepository($url, $dir);
 
-        Repository::create([
-            'name' => $name,
-            'url' => $url,
-            'website' => $website,
-            'team_id' => $teamId,
-        ]);
+        $wasSuccessful = exec("cd $dir && yarn");
+
+        if ($wasSuccessful) {
+            Repository::create([
+                'name' => $name,
+                'url' => $url,
+                'website' => $website,
+                'team_id' => $teamId,
+            ]);
+        } else {
+            exec("rm -rf $dir");
+        }
     }
 
     public function deleteRepository(int $id) {
         $repository = Repository::find($id);
         $directory = $this->getRepositoryDirectory($repository->name);
 
-        shell_exec("rm -rf $directory");
+        exec("rm -rf $directory");
 
         $repository->delete();
     }
@@ -85,7 +92,7 @@ class RepoManager {
 
         $rootDir = $this->getRepositoryDirectory($repository->name);
 
-        shell_exec("cd $rootDir && hugo new $archetype/$slug.md");
+        exec("cd $rootDir && hugo new $archetype/$slug.md");
 
         return new ContentFile("$rootDir/content/$archetype/$slug.md");
     }
@@ -98,7 +105,7 @@ class RepoManager {
             "$slug.md"
         ]);
 
-        shell_exec("rm -rf $path");
+        exec("rm -rf $path");
     }
 
     private function getRepositoryDirectory(string $name) {

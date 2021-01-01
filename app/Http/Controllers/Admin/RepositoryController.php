@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\CloneRepository;
 use App\Models\Repository;
 use App\Models\Team;
 use App\Services\RepoManager;
@@ -31,12 +32,12 @@ class RepositoryController extends Controller
             'team' => 'integer|exists:teams,id',
         ]);
 
-        $repoManager->createRepository(
+        dispatch(new CloneRepository(
             $request->input('name'),
             $request->input('url'),
-            $request->input('website', ''),
+            $request->input('website') || '',
             $request->input('team'),
-        );
+        ));
 
         return back();
     }
