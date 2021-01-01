@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Repository;
 use DateTime;
 use GitWrapper\GitWrapper;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Symfony\Component\Yaml\Yaml;
 
@@ -106,6 +107,38 @@ class RepoManager {
         ]);
 
         exec("rm -rf $path");
+    }
+
+    public function build(Repository $repository) {
+        $rootDir = $this->getRepositoryDirectory($repository->name);
+        $appUrl = config('app.url');
+        $baseUrl = "$appUrl/repositories/{$repository->id}/preview/p/";
+
+        exec("cd $rootDir && yarn && NODE_ENV=production HUGO_BASEURL='$baseUrl' hugo");
+    }
+
+    public function getStaticFile(Repository $repository, string $relativePath) {
+        $rootDir = $this->getRepositoryDirectory($repository->name);
+        $relativePath = str_replace('../', '', $relativePath);
+
+        $path = "$rootDir/public/$relativePath";
+        $mimeType = mime_content_type($path);
+
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+        if (empty($extension)) {
+            $path .= "/index.html";
+            $mimeType = 'text/html';
+        } elseif ($extension === 'css') {
+            $mimeType = 'text/css';
+        } elseif ($extension === 'js') {
+            $mimeType = 'application/javascript';
+        }
+
+        return [
+            file_get_contents($path),
+            $mimeType,
+        ];
     }
 
     private function getRepositoryDirectory(string $name) {

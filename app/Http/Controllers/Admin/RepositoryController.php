@@ -24,7 +24,7 @@ class RepositoryController extends Controller
         ]);
     }
 
-    public function store(Request $request, RepoManager $repoManager) {
+    public function store(Request $request) {
         $request->validate([
             'name' => 'required',
             'url' => 'required',
@@ -35,7 +35,7 @@ class RepositoryController extends Controller
         dispatch(new CloneRepository(
             $request->input('name'),
             $request->input('url'),
-            $request->input('website') || '',
+            $request->input('website') ?: '',
             $request->input('team'),
         ));
 

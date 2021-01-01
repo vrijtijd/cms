@@ -62,7 +62,7 @@ class RepositoryContentController extends Controller
                     ->update(
                         $request->input('slug'),
                         $request->input('frontmatter'),
-                        $request->input('body') || '',
+                        $request->input('body') ?: '',
                     );
 
         return redirect()->route('repositories.content.edit', [

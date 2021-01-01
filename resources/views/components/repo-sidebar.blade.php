@@ -9,6 +9,13 @@
                     {{ $archetype }}
                 </x-sidebar-link>
             @endforeach
+            <x-sidebar-link
+                icon="eye"
+                href="{{ route('repositories.preview', [$repository->id]) }}"
+                target="_blank"
+            >
+                Preview
+            </x-sidebar-link>
         </nav>
     </div>
 </div>
