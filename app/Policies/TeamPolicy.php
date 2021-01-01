@@ -41,7 +41,7 @@ class TeamPolicy
      */
     public function create(User $user)
     {
-        return true;
+        return $user->is_admin;
     }
 
     /**
@@ -53,7 +53,7 @@ class TeamPolicy
      */
     public function update(User $user, Team $team)
     {
-        return $user->ownsTeam($team);
+        return $user->is_admin || $user->ownsTeam($team);
     }
 
     /**
@@ -65,7 +65,7 @@ class TeamPolicy
      */
     public function addTeamMember(User $user, Team $team)
     {
-        return $user->ownsTeam($team);
+        return $user->is_admin || $user->ownsTeam($team);
     }
 
     /**
@@ -77,7 +77,7 @@ class TeamPolicy
      */
     public function updateTeamMember(User $user, Team $team)
     {
-        return $user->ownsTeam($team);
+        return $user->is_admin || $user->ownsTeam($team);
     }
 
     /**
@@ -89,7 +89,7 @@ class TeamPolicy
      */
     public function removeTeamMember(User $user, Team $team)
     {
-        return $user->ownsTeam($team);
+        return $user->is_admin || $user->ownsTeam($team);
     }
 
     /**
@@ -101,6 +101,6 @@ class TeamPolicy
      */
     public function delete(User $user, Team $team)
     {
-        return $user->ownsTeam($team);
+        return $user->is_admin;
     }
 }
