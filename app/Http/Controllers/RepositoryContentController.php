@@ -58,13 +58,18 @@ class RepositoryContentController extends Controller
             return redirect()->route('repositories.show', $repository->id);
         }
 
-        $repoManager->getContentFile($repository, $archetype, $slug)
+        $contentFile = $repoManager->getContentFile($repository, $archetype, $slug)
                     ->update(
+                        $request->input('slug'),
                         $request->input('frontmatter'),
-                        $request->input('body'),
+                        $request->input('body') || '',
                     );
 
-        return back();
+        return redirect()->route('repositories.content.edit', [
+            $repository->id,
+            $archetype,
+            $contentFile->getSlug(),
+        ]);
     }
 
     public function destroy(Repository $repository, string $archetype, string $slug, RepoManager $repoManager) {

@@ -150,7 +150,8 @@ class ContentFile {
         return $this->body;
     }
 
-    public function update(array $frontMatter, string $body) {
+    public function update(string $slug, array $frontMatter, string $body) {
+        $slug = Str::slug($slug);
         $this->frontMatter = $frontMatter;
         $this->body = $body;
 
@@ -179,6 +180,16 @@ EOF
 );
 
         fclose($fileHandle);
+
+        if ($this->slug !== $slug) {
+            rename(
+                $this->path,
+                str_replace("{$this->slug}.md", "$slug.md", $this->path),
+            );
+            $this->slug = $slug;
+        }
+
+        return $this;
     }
 
     private function readFile() {
