@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\RepositoryController;
+use App\Http\Controllers\PublishRepositoryController;
 use App\Http\Controllers\RepositoryContentController;
 use App\Http\Controllers\RepositoryPreviewController;
 use App\Http\Controllers\RepositoryStaticFileController;
-use App\Models\Repository;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +27,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
 
         Route::get('repositories/{repository}/preview', RepositoryPreviewController::class)->name('repositories.preview');
         Route::get('repositories/{repository}/preview/p/{path?}', RepositoryStaticFileController::class)->where('path', '(.*)');
+        Route::get('repositories/{repository}/publish', PublishRepositoryController::class)->name('repositories.publish');
 
         Route::prefix('repositories/{repository}')->name('repositories.content.')->group(function() {
             Route::get('{archetype}', [RepositoryContentController::class, 'index'])->name('index');

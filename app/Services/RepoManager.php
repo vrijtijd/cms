@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Repository;
 use DateTime;
 use GitWrapper\GitWrapper;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Symfony\Component\Yaml\Yaml;
 
@@ -139,6 +138,19 @@ class RepoManager {
             file_get_contents($path),
             $mimeType,
         ];
+    }
+
+    public function hasChanges(Repository $repository) {
+        return $this->gitWrapper
+                    ->workingCopy($this->getRepositoryDirectory($repository->name))
+                    ->hasChanges();
+    }
+
+    public function publish(Repository $repository, string $commitMessage) {
+        $workingCopy = $this->gitWrapper->workingCopy($this->getRepositoryDirectory($repository->name));
+        $workingCopy->add('.');
+        $workingCopy->commit($commitMessage);
+        $workingCopy->push();
     }
 
     private function getRepositoryDirectory(string $name) {

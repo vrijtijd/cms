@@ -16,6 +16,12 @@
             >
                 Preview
             </x-sidebar-link>
+            <x-sidebar-link
+                icon="cloud-upload"
+                href="{{ route('repositories.publish', [$repository->id]) }}"
+            >
+                Publish
+            </x-sidebar-link>
         </nav>
     </div>
 </div>

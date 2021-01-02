@@ -14,7 +14,6 @@ class DateInput extends Component
     public $timeName;
     public $dateValue;
     public $timeValue;
-    public $timezone;
 
     /**
      * Create a new component instance.
@@ -25,14 +24,14 @@ class DateInput extends Component
     {
         $this->label = $label;
         $this->name = $name;
-        $this->timezone = $date->format('P');
         $this->dateName = md5($name . 'date');
         $this->timeName = md5($name . 'time');
 
+        $timezone = $date->format('P');
         $this->date = $date;
         if (old($this->dateName)) {
             $this->date = new DateTime(
-                old($this->dateName) . 'T' . old($this->timeName) . $this->timezone
+                old($this->dateName) . 'T' . old($this->timeName) . $timezone
             );
         }
 
