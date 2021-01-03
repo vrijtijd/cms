@@ -14,7 +14,10 @@
                     </x-jet-nav-link>
 
                     @foreach (Auth::user()->currentTeam->repositories as $repository)
-                        <x-jet-nav-link href="{{ route('repositories.show', $repository->id) }}" :active="request()->routeIs('repositories.show')">
+                        <x-jet-nav-link
+                            href="{{ route('repositories.show', $repository->id) }}"
+                            :active="request()->fullUrlIs('*/repositories/'.$repository->id.'*')"
+                        >
                             {{ $repository->name }}
                         </x-jet-nav-link>
                     @endforeach
