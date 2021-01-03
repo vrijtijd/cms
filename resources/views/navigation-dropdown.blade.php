@@ -96,7 +96,7 @@
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
+    {{-- Responsive Navigation Menu --}}
     <div :class="{'block': open, 'hidden': !open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
@@ -126,6 +126,21 @@
                         {{ __('Logout') }}
                     </x-jet-responsive-nav-link>
                 </form>
+
+                <div class="border-t border-vt-lightGray-300"></div>
+
+                <div class="block px-4 py-2 text-xs text-vt-darkGray-200">
+                    {{ __('Manage Websites') }}
+                </div>
+
+                @foreach (Auth::user()->currentTeam->repositories as $repository)
+                    <x-jet-responsive-nav-link
+                        href="{{ route('repositories.show', $repository->id) }}"
+                        :active="request()->fullUrlIs('*/repositories/'.$repository->id.'*')"
+                    >
+                        {{ $repository->name }}
+                    </x-jet-responsive-nav-link>
+                @endforeach
 
                 <div class="border-t border-vt-lightGray-300"></div>
 
