@@ -41,13 +41,13 @@
                     </td>
                     <td class="px-6 py-4 flex justify-end space-x-4">
                         <a
-                            href="{{ route('repositories.content.edit', [$repository->id, $archetype, $contentFile->getSlug()]) }}"
+                            href="{{ route('repositories.content.edit', [$repository->id, strtolower($archetype), $contentFile->getSlug()]) }}"
                             class="text-blue-600 hover:text-blue-800"
                         >
                             Edit
                         </a>
                         <x-form-button
-                            :action="route('repositories.content.destroy', [$repository->id, $archetype, $contentFile->getSlug()])"
+                            :action="route('repositories.content.destroy', [$repository->id, strtolower($archetype), $contentFile->getSlug()])"
                             method="DELETE"
                             class="text-red-600 hover:text-red-800 font-bold"
                             x-data=""

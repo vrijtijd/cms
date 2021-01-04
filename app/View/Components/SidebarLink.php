@@ -19,7 +19,7 @@ class SidebarLink extends Component
     public function __construct(string $href, string $icon)
     {
         $this->href = $href;
-        $this->isCurrent = Request::fullUrlIs($href);
+        $this->isCurrent = Request::fullUrlIs("$href*");
         $this->icon = $icon;
     }
 
