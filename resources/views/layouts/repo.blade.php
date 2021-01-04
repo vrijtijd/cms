@@ -1,7 +1,7 @@
-<x-app-layout>
-    <div class="flex-grow lg:flex">
+<x-sidebar-layout>
+    <x-slot name="sidebar">
         <x-repo-sidebar :repository="$repository"/>
+    </x-slot>
 
-        <main class="flex-1 p-4">{{ $slot }}</main>
-    </div>
-</x-app-layout>
+    {{ $slot }}
+</x-sidebar-layout>
