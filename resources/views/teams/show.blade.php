@@ -1,6 +1,6 @@
-<x-app-layout>
+<x-settings-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-vt-darkGray-700 leading-tight">
             {{ __('Team Settings') }}
         </h2>
     </x-slot>
@@ -20,4 +20,4 @@
             @endif
         </div>
     </div>
-</x-app-layout>
+</x-settings-layout>

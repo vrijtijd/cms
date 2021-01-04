@@ -8,7 +8,7 @@
     </x-slot>
 
     <x-slot name="content">
-        <div class="max-w-xl text-sm text-gray-600">
+        <div class="max-w-xl text-sm text-vt-darkGray-500">
             {{ __('Once a team is deleted, all of its resources and data will be permanently deleted. Before deleting this team, please download any data or information regarding this team that you wish to retain.') }}
         </div>
 
@@ -18,7 +18,6 @@
             </x-jet-danger-button>
         </div>
 
-        <!-- Delete Team Confirmation Modal -->
         <x-jet-confirmation-modal wire:model="confirmingTeamDeletion">
             <x-slot name="title">
                 {{ __('Delete Team') }}
