@@ -10,13 +10,17 @@
             'text-sm',
             'font-medium',
             'rounded-md',
-            ($isCurrent ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'),
+            (
+                $isCurrent
+                ? 'bg-vt-lightGray-200 text-vt-darkGray-800'
+                : 'text-vt-darkGray-500 hover:bg-vt-lightGray-100 hover:text-vt-darkGray-800'
+            ),
         ]),
     ]) }}
     >
     <x-icon
         name="{{ $icon }}"
-        class="{{ $isCurrent ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500' }} mr-3 h-6 w-6"
+        class="{{ $isCurrent ? 'text-vt-darkGray-400' : 'text-vt-darkGray-400 group-hover:text-vt-darkGray-700' }} mr-3 h-6 w-6"
     />
     {{ $slot }}
 </a>

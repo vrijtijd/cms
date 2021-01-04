@@ -11,15 +11,16 @@
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.2.1",
-        "@tailwindcss/ui": "^0.6.0",
+        "@tailwindcss/ui": "^0.7.2",
         "alpinejs": "^2.7.3",
         "axios": "^0.19",
         "cross-env": "^7.0",
-        "laravel-mix": "^5.0.1",
+        "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
-        "postcss-import": "^12.0.1",
+        "postcss": "^8.1",
+        "postcss-import": "^14.0.0",
         "resolve-url-loader": "^3.1.0",
-        "tailwindcss": "^1.8.0",
+        "tailwindcss": "^2.0.0",
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
