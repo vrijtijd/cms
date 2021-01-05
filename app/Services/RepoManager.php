@@ -44,8 +44,13 @@ class RepoManager {
         }
     }
 
-    public function deleteRepository(int $id) {
-        $repository = Repository::find($id);
+    public function pullRepository(Repository $repository) {
+        return $this->gitWrapper
+                    ->workingCopy($this->getRepositoryDirectory($repository->name))
+                    ->pull();
+    }
+
+    public function deleteRepository(Repository $repository) {
         $directory = $this->getRepositoryDirectory($repository->name);
 
         exec("rm -rf $directory");

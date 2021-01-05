@@ -43,7 +43,7 @@ class RepositoryController extends Controller
     }
 
     public function destroy(Repository $repository, RepoManager $repoManager) {
-        $repoManager->deleteRepository($repository->id);
+        $repoManager->deleteRepository($repository);
 
         return back();
     }

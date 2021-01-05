@@ -1,61 +1,40 @@
 @props(['teams'])
 
-<div>
-    <h3 class="text-lg leading-6 font-medium text-gray-900">
-        Add new
-    </h3>
-</div>
-
-<x-form
+<x-form-panel
     method="POST"
     action="{{ route('admin.repositories.store') }}"
-    class="space-y-4 divide-y divide-gray-300"
-    >
-    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-        <x-label for="name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-            Name
-        </x-x-label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
-            <x-input type="text" name="name" id="name" autocomplete="given-name" class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md border"/>
+    :attributes="$attributes"
+>
+    <x-slot name="form">
+        <div class="col-span-6 lg:col-span-4">
+            <x-jet-label for="name" value="Name" />
+            <x-jet-input id="name" name="name" type="text" class="mt-1 block w-full" />
+            <x-jet-input-error for="name" class="mt-2" />
         </div>
-    </div>
-
-    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-        <x-label for="url" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-            URL
-        </x-label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
-            <x-input type="text" name="url" id="url" autocomplete="given-name" class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md border"/>
+        <div class="col-span-6 lg:col-span-4">
+            <x-jet-label for="url" value="Git URL" />
+            <x-jet-input id="url" name="url" type="text" class="mt-1 block w-full" />
+            <x-jet-input-error for="url" class="mt-2" />
         </div>
-    </div>
-
-    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-        <x-label for="website" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-            Website
-        </x-label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
-            <x-input type="text" name="website" id="website" autocomplete="given-name" class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md border"/>
+        <div class="col-span-6 lg:col-span-4">
+            <x-jet-label for="website" value="Website URL" />
+            <x-jet-input id="website" name="website" type="text" class="mt-1 block w-full" />
+            <x-jet-input-error for="website" class="mt-2" />
         </div>
-    </div>
-
-    <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-        <x-label for="team" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-            Team
-        </x-label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
-            <select id="location" name="team" class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md border">
+        <div class="col-span-6 lg:col-span-4">
+            <x-jet-label for="team" value="Team" />
+            <select id="team" name="team" class="form-input rounded-md shadow-sm mt-1 block w-full">
                 @foreach ($teams as $team)
                     <option value="{{ $team->id }}">{{ $team->name }}</option>
                 @endforeach
             </select>
+            <x-jet-input-error for="team" class="mt-2" />
         </div>
-    </div>
+    </x-slot>
 
-    <div class="pt-5">
-        <div class="flex justify-end">
-            <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Save
-            </button>
-        </div>
-    </div>
-</x-form>
+    <x-slot name="actions">
+        <x-jet-button>
+            Save
+        </x-jet-button>
+    </x-slot>
+</x-form-panel>
