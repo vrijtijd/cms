@@ -3,61 +3,57 @@
         {{ $archetype }}
     </h1>
 
-    <div class="mt-4">
-        <x-form
-            method="POST"
-            action="{{ route('repositories.content.store', [$repository->id, Str::slug($archetype)]) }}"
-            x-data=""
-        >
-            <div class="flex items-end">
-                <div class="w-full">
-                    <x-repositories.content.text-input label="Title" name="title" :value="''"/>
-                </div>
-                <div>
-                    <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Create
-                    </button>
-                </div>
-            </div>
-        </x-form>
-    </div>
+    <x-form-panel
+        class="mt-4"
+        method="POST"
+        action="{{ route('repositories.content.store', [$repository->id, Str::slug($archetype)]) }}"
+    >
+        <div class="col-span-6 lg:col-span-4">
+            <x-jet-label for="title" value="Title" />
 
-    <table class="min-w-full divide-y divide-gray-200 mt-4">
-        <thead class="bg-gray-50">
-            <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Name
-                </th>
-                <th scope="col" class="relative px-6 py-3">
-                    <span class="sr-only">Edit</span>
-                </th>
-            </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-            @foreach($contentFiles as $contentFile)
-                <tr class="whitespace-nowrap text-sm text-gray-900">
-                    <td class="px-6 py-4">
-                        {{ $contentFile->getName() }}
-                    </td>
-                    <td class="px-6 py-4 flex justify-end space-x-4">
-                        <a
-                            href="{{ route('repositories.content.edit', [$repository->id, Str::slug($archetype), $contentFile->getSlug()]) }}"
-                            class="text-blue-600 hover:text-blue-800"
-                        >
-                            Edit
-                        </a>
-                        <x-form-button
-                            :action="route('repositories.content.destroy', [$repository->id, Str::slug($archetype), $contentFile->getSlug()])"
-                            method="DELETE"
-                            class="text-red-600 hover:text-red-800 font-bold"
-                            x-data=""
-                            @click="return confirm('Are you sure?')"
-                        >
-                            Delete
-                        </x-form-button>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+            <x-jet-input
+                class="mt-1 block w-full"
+                type="text"
+                name="title"
+                id="title"/>
+
+            <x-jet-input-error for="name" class="mt-2" />
+        </div>
+
+        <x-slot name="actions">
+            <x-jet-button>
+                Create
+            </x-jet-button>
+        </x-slot>
+    </x-form-panel>
+
+    <x-table class="mt-3">
+        <x-slot name="headings">
+            <x-th>Title</x-th>
+            <x-th><span class="sr-only">Edit</span></x-th>
+        </x-slot>
+
+        @foreach($contentFiles as $contentFile)
+            <x-tr>
+                <x-td>{{ $contentFile->getName() }}</x-td>
+                <x-td class="flex justify-end gap-2">
+                    <a
+                        href="{{ route('repositories.content.edit', [$repository->id, Str::slug($archetype), $contentFile->getSlug()]) }}"
+                        class="text-vt-blue-800 hover:text-vt-blue-900"
+                    >
+                        <x-icon-pencil class="w-6 h-6"/>
+                    </a>
+                    <x-form-button
+                        :action="route('repositories.content.destroy', [$repository->id, Str::slug($archetype), $contentFile->getSlug()])"
+                        method="DELETE"
+                        class="text-red-600 hover:text-red-800 font-bold"
+                        x-data=""
+                        @click="return confirm('Are you sure?')"
+                    >
+                        <x-icon-trash class="w-6 h-6"/>
+                    </x-form-button>
+                </x-td>
+            </x-tr>
+        @endforeach
+    </x-table>
 </x-repo-layout>

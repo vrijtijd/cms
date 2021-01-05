@@ -22,7 +22,12 @@
         <div class="space-y-8 divide-y divide-gray-200">
             <div>
                 <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-                    <x-repositories.content.text-input label="Slug" name="slug" :value="$contentFile->getSlug()"/>
+                    <x-jet-input
+                        class="mt-1 block w-full"
+                        type="text"
+                        id="slug"
+                        name="slug"
+                        :value="$contentFile->getSlug()"/>
 
                     @foreach ($contentFile->getFrontMatter() as $frontMatterName => $frontMatterValue)
                         <x-repositories.content.front-matter-input :name="$frontMatterName" :value="$frontMatterValue"/>

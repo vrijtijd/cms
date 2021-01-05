@@ -1,23 +1,23 @@
 @props(['repository'])
 
-<tr class="whitespace-nowrap text-sm text-vt-darkGray-800">
-    <td class="px-6 py-4">
+<x-tr>
+    <x-td>
         <a href="{{ route('repositories.show', $repository->id) }}" class="text-vt-blue-800 hover:text-vt-blue-900">
             {{ $repository->name }}
         </a>
-    </td>
-    <td class="px-6 py-4">
+    </x-td>
+    <x-td>
         {{ $repository->url }}
-    </td>
-    <td class="px-6 py-4">
+    </x-td>
+    <x-td>
         <a
             href="{{ route('teams.show', $repository->team->id) }}"
             class="text-vt-blue-800 hover:text-vt-blue-900"
         >
             {{ $repository->team->name }}
         </a>
-    </td>
-    <td class="px-6 py-4 flex justify-end gap-2">
+    </x-td>
+    <x-td class="flex justify-end gap-2">
         <livewire:pull-repository-button :repository="$repository"/>
 
         @if ($repository->website)
@@ -34,5 +34,5 @@
         >
             <x-icon-trash class="w-6 h-6"/>
         </x-form-button>
-    </td>
-</tr>
+    </x-td>
+</x-tr>
