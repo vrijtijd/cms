@@ -6,7 +6,7 @@
     <x-jet-input
         class="mt-1 block w-full"
         type="text"
-        id="name"
+        :id="$name"
         name="frontmatter[{{ $name }}]"
         :value="$value"/>
 @endif

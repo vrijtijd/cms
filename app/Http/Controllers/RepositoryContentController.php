@@ -38,7 +38,7 @@ class RepositoryContentController extends Controller
             $repository->id,
             $archetype,
             $contentFile->getSlug(),
-        ]);
+        ])->with('created', true);
     }
 
     public function edit(Repository $repository, string $archetype, string $slug, RepoManager $repoManager) {
@@ -65,11 +65,12 @@ class RepositoryContentController extends Controller
                         $request->input('body') ?: '',
                     );
 
+        // Need to redirect instead of `back()` because the slug might've changed
         return redirect()->route('repositories.content.edit', [
             $repository->id,
             $archetype,
             $contentFile->getSlug(),
-        ]);
+        ])->with('updated', true);
     }
 
     public function destroy(Repository $repository, string $archetype, string $slug, RepoManager $repoManager) {

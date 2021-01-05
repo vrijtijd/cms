@@ -13,43 +13,52 @@
         </h3>
     </div>
 
-    <x-form
+    @if (session('created'))
+        <x-alert-banner class="mt-3">
+            New <span class="font-bold">{{ Str::singular($archetype) }}</span> created.
+        </x-alert-banner>
+    @elseif (session('created'))
+        <x-alert-banner class="mt-3">
+            Changes to <span class="font-bold">{{ $contentFile->getName() }}</span> saved!
+        </x-alert-banner>
+    @endif
+
+    <x-form-panel
         class="space-y-4 divide-y divide-gray-200"
         method="PUT"
         action="{{ route('repositories.content.update', [$repository->id, $archetype, $contentFile->getSlug()]) }}"
-        x-data=""
     >
-        <div class="space-y-8 divide-y divide-gray-200">
-            <div>
-                <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-                    <x-jet-input
-                        class="mt-1 block w-full"
-                        type="text"
-                        id="slug"
-                        name="slug"
-                        :value="$contentFile->getSlug()"/>
-
-                    @foreach ($contentFile->getFrontMatter() as $frontMatterName => $frontMatterValue)
-                        <x-repositories.content.front-matter-input :name="$frontMatterName" :value="$frontMatterValue"/>
-                    @endforeach
-
-                    <x-repositories.content.body-editor name="body" :body="$contentFile->getBody()"/>
-                </div>
-            </div>
+        <div class="col-span-6 lg:col-span-4">
+            <x-jet-label for="slug" value="Slug" />
+            <x-jet-input
+                class="mt-1 block w-full"
+                type="text"
+                id="slug"
+                name="slug"
+                :value="$contentFile->getSlug()"/>
+            <x-jet-input-error for="slug" class="mt-2" />
         </div>
-        <div class="pt-5">
-            <div class="flex justify-end">
-                <button
-                    type="reset"
-                    class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    @click="window.editor.value(document.getElementById('body').value)"
-                >
-                    Cancel
-                </button>
-                <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Save
-                </button>
+
+        @foreach ($contentFile->getFrontMatter() as $frontMatterName => $frontMatterValue)
+            <div class="col-span-6 lg:col-span-4">
+                <x-jet-label :for="$frontMatterName" :value="Str::title($frontMatterName)" />
+
+                <x-repositories.content.front-matter-input :name="$frontMatterName" :value="$frontMatterValue"/>
+                <x-jet-input-error :for="$frontMatterName" class="mt-2" />
             </div>
-        </div>
-    </x-form>
+        @endforeach
+
+        <x-repositories.content.body-editor name="body" :body="$contentFile->getBody()"/>
+
+        <x-slot name="actions">
+            <x-jet-secondary-button
+                href="{{ route('repositories.content.index', [$repository->id, $archetype]) }}"
+            >
+                Cancel
+            </x-jet-secondary-button>
+            <x-jet-button>
+                Save
+            </x-jet-button>
+        </x-slot>
+    </x-form-panel>
 </x-repo-layout>

@@ -1,3 +1,15 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+.CodeMirror .CodeMirror-scroll {
+    overflow: hidden !important;
+}
+
+.CodeMirror .CodeMirror-vscrollbar {
+    display: none !important;
+}
+
+.CodeMirror-sizer + div:not([class]) {
+    @apply hidden;
+}
