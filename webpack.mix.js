@@ -13,6 +13,7 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/content-editor.js', 'public/js')
+    .js('resources/js/preview-repository.js', 'public/js')
     .copy('node_modules/simplemde/dist/simplemde.min.css', 'public/css')
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),

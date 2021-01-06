@@ -13,6 +13,8 @@ class RepositoryPreviewStatusBar extends Component
 
     public $repository;
 
+    protected $listeners = ['buildStarted' => 'refreshPreview'];
+
     public function mount(Repository $repository) {
         $this->repository = $repository;
     }

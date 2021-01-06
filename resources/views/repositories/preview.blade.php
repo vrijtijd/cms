@@ -16,22 +16,18 @@
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                Livewire.on('buildComplete', () => {
-                    document.getElementById('preview').contentWindow.location.reload()
-                })
-            })
-        </script>
     </head>
     <body class="font-sans antialiased">
-        <div class="flex flex-col min-h-screen bg-gray-100">
+        <div class="flex flex-col min-h-screen bg-vt-blue-100">
             <livewire:repository-preview-status-bar :repository="$repository"/>
+
+            <x-icon-loading-indicator class="h-24 w-24 m-auto" id="loading-indicator"/>
             <iframe id="preview" class="w-full flex-grow" src="/repositories/{{ $repository->id }}/preview/p/index.html"></iframe>
         </div>
 
         @stack('modals')
 
         @livewireScripts
+        <script src="{{ mix('js/preview-repository.js') }}"></script>
     </body>
 </html>
