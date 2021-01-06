@@ -226,6 +226,8 @@ class ContentFile {
 
         $frontMatterYaml = trim(Yaml::dump($frontMatter));
         $body = str_replace("\r", '', $body);
+        $body = preg_replace('/^[ \t\f]+|[ \t\f]+$/m', '', $body); // trim each line
+        $body = preg_replace('/^(.+)$/m', '\1  ', $body); // force markdown newlines
 
         fwrite($fileHandle, <<<EOF
 ---
