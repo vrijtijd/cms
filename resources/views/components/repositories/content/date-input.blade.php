@@ -18,26 +18,28 @@
     @endpush
 @endonce
 
-<x-input
-    type="hidden"
-    :name="$name"
-    x-bind:value="date + 'T' + time + ':00' + window.timezone"/>
+<div x-data="{ date: '{{ $dateValue }}', time: '{{ $timeValue }}' }">
+    <x-input
+        type="hidden"
+        :name="$name"
+        x-bind:value="date + 'T' + time + ':00' + window.timezone"/>
 
-<div class="flex gap-2">
-    <x-jet-input
-        class="flex-1"
-        type="date"
-        required
-        :id="$label"
-        :name='$dateName'
-        :value="$dateValue"
-        x-model="date"/>
+    <div class="flex gap-2">
+        <x-jet-input
+            class="flex-1"
+            type="date"
+            required
+            :id="$label"
+            :name='$dateName'
+            :value="$dateValue"
+            x-model="date"/>
 
-    <x-jet-input
-        class="flex-1"
-        type="time"
-        required
-        :name='$timeName'
-        :value="$timeValue"
-        x-model="time"/>
+        <x-jet-input
+            class="flex-1"
+            type="time"
+            required
+            :name='$timeName'
+            :value="$timeValue"
+            x-model="time"/>
+    </div>
 </div>
