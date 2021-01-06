@@ -5,7 +5,7 @@
     <x-sidebar-link icon="user" href="{{ route('admin.users.index') }}">
         Users
     </x-sidebar-link>
-    <x-sidebar-link icon="user-group" href="#">
+    <x-sidebar-link icon="user-group" href="{{ route('admin.teams.index') }}">
         Teams
     </x-sidebar-link>
 </x-sidebar>

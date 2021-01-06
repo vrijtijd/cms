@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\RepositoryController;
+use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PublishRepositoryController;
 use App\Http\Controllers\RepositoryContentController;
@@ -42,5 +43,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function() {
         Route::resource('repositories', RepositoryController::class)->only('index', 'store');
         Route::resource('users', UserController::class)->only('index', 'store');
+        Route::resource('teams', TeamController::class)->only('index');
     });
 });
