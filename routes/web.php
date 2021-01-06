@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\RepositoryController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PublishRepositoryController;
 use App\Http\Controllers\RepositoryContentController;
 use App\Http\Controllers\PreviewRepositoryController;
@@ -40,5 +41,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::redirect('/admin', '/admin/repositories')->name('admin');
     Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function() {
         Route::resource('repositories', RepositoryController::class)->only('index', 'store');
+        Route::resource('users', UserController::class)->only('index', 'store');
     });
 });

@@ -19,7 +19,7 @@ class CreateNewUser implements CreatesNewUsers
      * @param  array  $input
      * @return \App\Models\User
      */
-    public function create(array $input)
+    public function create(array $input, bool $shouldCreateTeam = true)
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
@@ -27,13 +27,15 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
-        return DB::transaction(function () use ($input) {
+        return DB::transaction(function () use ($input, $shouldCreateTeam) {
             return tap(User::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
-            ]), function (User $user) {
-                $this->createTeam($user);
+            ]), function (User $user) use ($shouldCreateTeam) {
+                if ($shouldCreateTeam) {
+                    $this->createTeam($user);
+                }
             });
         });
     }
