@@ -34,12 +34,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
             Route::post('{archetype}', [RepositoryContentController::class, 'store'])->name('store');
             Route::get('{archetype}/{slug}', [RepositoryContentController::class, 'edit'])->name('edit');
             Route::put('{archetype}/{slug}', [RepositoryContentController::class, 'update'])->name('update');
-            Route::delete('{archetype}/{slug}', [RepositoryContentController::class, 'destroy'])->name('destroy');
         });
     });
 
     Route::redirect('/admin', '/admin/repositories')->name('admin');
     Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function() {
-        Route::resource('repositories', RepositoryController::class)->only('index', 'store', 'destroy');
+        Route::resource('repositories', RepositoryController::class)->only('index', 'store');
     });
 });

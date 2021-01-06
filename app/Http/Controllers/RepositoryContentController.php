@@ -72,14 +72,4 @@ class RepositoryContentController extends Controller
             $contentFile->getSlug(),
         ])->with('updated', true);
     }
-
-    public function destroy(Repository $repository, string $archetype, string $slug, RepoManager $repoManager) {
-        if (!$repoManager->isValidArchetype($repository, $archetype)) {
-            return redirect()->route('repositories.show', $repository->id);
-        }
-
-        $repoManager->deleteContent($repository, $archetype, $slug);
-
-        return back();
-    }
 }

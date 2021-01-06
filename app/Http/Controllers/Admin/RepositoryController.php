@@ -41,10 +41,4 @@ class RepositoryController extends Controller
 
         return back();
     }
-
-    public function destroy(Repository $repository, RepoManager $repoManager) {
-        $repoManager->deleteRepository($repository);
-
-        return back();
-    }
 }

@@ -110,7 +110,7 @@ class RepoManager {
             "$slug.md"
         ]);
 
-        exec("rm -rf $path");
+        exec("rm $path");
     }
 
     public function build(Repository $repository) {

@@ -43,15 +43,11 @@
                     >
                         <x-icon-pencil class="w-6 h-6"/>
                     </a>
-                    <x-form-button
-                        :action="route('repositories.content.destroy', [$repository->id, Str::slug($archetype), $contentFile->getSlug()])"
-                        method="DELETE"
-                        class="text-red-600 hover:text-red-800 font-bold"
-                        x-data=""
-                        @click="return confirm('Are you sure?')"
-                    >
-                        <x-icon-trash class="w-6 h-6"/>
-                    </x-form-button>
+                    <livewire:delete-repository-content-button
+                        :repositoryId="$repository->id"
+                        :archetype="$archetype"
+                        :slug="$contentFile->getSlug()"
+                        :title="$contentFile->getName()" />
                 </x-td>
             </x-tr>
         @endforeach

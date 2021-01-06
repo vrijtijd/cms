@@ -25,14 +25,8 @@
                 <x-icon-external-link class="w-6 h-6"/>
             </a>
         @endif
-        <x-form-button
-            :action="route('admin.repositories.destroy', $repository->id)"
-            method="DELETE"
-            class="text-red-600 hover:text-red-800 font-bold"
-            x-data=""
-            @click="return confirm('Are you sure?')"
-        >
-            <x-icon-trash class="w-6 h-6"/>
-        </x-form-button>
+        <livewire:delete-repository-button
+            :repositoryId="$repository->id"
+            :name="$repository->name"/>
     </x-td>
 </x-tr>
