@@ -55,23 +55,19 @@
                             {{ __('Team Settings') }}
                         </x-jet-dropdown-link>
 
-                        @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-                            <x-jet-dropdown-link href="{{ route('teams.create') }}">
-                                {{ __('Create New Team') }}
-                            </x-jet-dropdown-link>
-                        @endcan
-
                         <div class="border-t border-vt-lightGray-300"></div>
 
-                        <div class="block px-4 py-2 text-xs text-vt-darkGray-300">
-                            {{ __('Switch Teams') }}
-                        </div>
+                        @if (Auth::user()->allTeams()->count() > 1)
+                            <div class="block px-4 py-2 text-xs text-vt-darkGray-300">
+                                {{ __('Switch Teams') }}
+                            </div>
 
-                        @foreach (Auth::user()->allTeams() as $team)
-                            <x-jet-switchable-team :team="$team" />
-                        @endforeach
+                            @foreach (Auth::user()->allTeams() as $team)
+                                <x-jet-switchable-team :team="$team" />
+                            @endforeach
 
-                        <div class="border-t border-vt-lightGray-300"></div>
+                            <div class="border-t border-vt-lightGray-300"></div>
+                        @endif
 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
