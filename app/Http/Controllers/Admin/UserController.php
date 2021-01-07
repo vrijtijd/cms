@@ -7,6 +7,7 @@ use App\Models\Team;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Laravel\Jetstream\Jetstream;
 
 class UserController extends Controller
 {
@@ -14,6 +15,7 @@ class UserController extends Controller
         return view('admin.users.index', [
             'users' => User::all(),
             'teams' => Team::all(),
+            'roles' => Jetstream::$roles,
         ]);
     }
 
@@ -22,6 +24,7 @@ class UserController extends Controller
             $request->input('name'),
             $request->input('email'),
             $request->input('team'),
+            $request->input('role'),
         );
 
         return back();

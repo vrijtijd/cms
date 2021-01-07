@@ -2,6 +2,8 @@
 
 namespace App\Actions\Jetstream;
 
+use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Jetstream\Contracts\AddsTeamMembers;
@@ -11,6 +13,13 @@ use Laravel\Jetstream\Rules\Role;
 
 class AddTeamMember implements AddsTeamMembers
 {
+    public $userService;
+
+    public function __construct(UserService $userService = null)
+    {
+        $this->userService = $userService ?: new UserService();
+    }
+
     /**
      * Add a new team member to the given team.
      *
@@ -26,12 +35,20 @@ class AddTeamMember implements AddsTeamMembers
 
         $this->validate($team, $email, $role);
 
-        $team->users()->attach(
-            $newTeamMember = Jetstream::findUserByEmailOrFail($email),
-            ['role' => $role]
-        );
+        $user = User::where('email', $email)->first();
 
-        TeamMemberAdded::dispatch($team, $newTeamMember);
+        if ($user) {
+            $team->users()->attach($user, ['role' => $role]);
+        } else {
+            $user = $this->userService->createUser(
+                explode('@', $email)[0],
+                $email,
+                $team->id,
+                $role,
+            );
+        }
+
+        TeamMemberAdded::dispatch($team, $user);
     }
 
     /**
@@ -47,9 +64,7 @@ class AddTeamMember implements AddsTeamMembers
         Validator::make([
             'email' => $email,
             'role' => $role,
-        ], $this->rules(), [
-            'email.exists' => __('We were unable to find a registered user with this email address.'),
-        ])->after(
+        ], $this->rules())->after(
             $this->ensureUserIsNotAlreadyOnTeam($team, $email)
         )->validateWithBag('addTeamMember');
     }
@@ -62,7 +77,7 @@ class AddTeamMember implements AddsTeamMembers
     protected function rules()
     {
         return array_filter([
-            'email' => ['required', 'email', 'exists:users'],
+            'email' => ['required', 'email'],
             'role' => Jetstream::hasRoles()
                             ? ['required', 'string', new Role]
                             : null,

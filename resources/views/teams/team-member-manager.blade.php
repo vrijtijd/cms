@@ -15,7 +15,7 @@
                 <x-slot name="form">
                     <div class="col-span-6">
                         <div class="max-w-xl text-sm text-vt-darkGray-500">
-                            {{ __('Please provide the email address of the person you would like to add to this team. The email address must be associated with an existing account.') }}
+                            {{ __('Please provide the email address of the person you would like to add to this team.') }}
                         </div>
                     </div>
 
@@ -87,8 +87,7 @@
                         @foreach ($team->users->sortBy('name') as $user)
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center">
-                                    <img class="w-8 h-8 rounded-full" src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">
-                                    <div class="ml-4">{{ $user->name }}</div>
+                                    {{ $user->name }}
                                 </div>
 
                                 <div class="flex items-center">

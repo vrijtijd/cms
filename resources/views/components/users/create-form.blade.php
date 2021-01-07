@@ -1,4 +1,4 @@
-@props(['teams'])
+@props(['teams', 'roles'])
 
 <x-form-panel
     method="POST"
@@ -25,6 +25,15 @@
             @endforeach
         </select>
         <x-jet-input-error for="team" class="mt-2" />
+    </div>
+    <div class="col-span-6 lg:col-span-4">
+        <x-jet-label for="role" value="role" />
+        <select id="role" name="role" class="form-input rounded-md shadow-sm mt-1 block w-full">
+            @foreach ($roles as $role)
+                <option value="{{ $role->key }}">{{ $role->name }}</option>
+            @endforeach
+        </select>
+        <x-jet-input-error for="role" class="mt-2" />
     </div>
 
     <x-slot name="actions">

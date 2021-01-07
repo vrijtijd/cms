@@ -6,7 +6,9 @@
     </x-td>
     <x-td>
         @foreach ($user->allTeams() as $team)
-            {{ $team->name }}
+            <a href="{{ route('teams.show', $team->id) }}" class="text-vt-blue-800 hover:text-vt-blue-900">
+                {{ $team->name }}
+            </a>
             @if (!$loop->last)
                 ,
             @endif

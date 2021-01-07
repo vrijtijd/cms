@@ -15,8 +15,8 @@ class UserService {
         $this->userCreator = $userCreator ?: new CreateNewUser();
     }
 
-    public function createUser(string $name, string $email, $teamId) {
-        return DB::transaction(function () use ($name, $email, $teamId) {
+    public function createUser(string $name, string $email, $teamId, string $role) {
+        return DB::transaction(function () use ($name, $email, $teamId, $role) {
             $password = (string) rand();
 
             return tap($this->userCreator->create([
@@ -24,11 +24,11 @@ class UserService {
                 'email' => $email,
                 'password' => $password,
                 'password_confirmation' => $password,
-            ], $teamId === null), function(User $user) use ($teamId) {
+            ], $teamId === null), function(User $user) use ($teamId, $role) {
                 if ($teamId !== null) {
                     $team = Team::find($teamId);
 
-                    $team->users()->attach($user->id);
+                    $team->users()->attach($user->id, ['role' => $role]);
                 }
             });
         });
