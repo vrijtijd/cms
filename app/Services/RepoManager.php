@@ -79,8 +79,8 @@ class RepoManager {
     public function getContentFiles(Repository $repository, string $archetype) {
         $rootDir = $this->getRepositoryDirectory($repository->name);
 
-        return array_map(function ($path) {
-            return new ContentFile($path);
+        return array_map(function ($path) use ($archetype) {
+            return new ContentFile($path, $archetype);
         }, glob("$rootDir/content/$archetype/*.md"));
     }
 
@@ -88,7 +88,7 @@ class RepoManager {
         $rootDir = $this->getRepositoryDirectory($repository->name);
         $path = "$rootDir/content/$archetype/$slug.md";
 
-        return new ContentFile($path);
+        return new ContentFile($path, $archetype);
     }
 
     public function createContentFile(
@@ -105,7 +105,7 @@ class RepoManager {
 
         exec("cd $rootDir && hugo new $archetype/$slug.md");
 
-        $contentFile = new ContentFile("$rootDir/content/$archetype/$slug.md");
+        $contentFile = new ContentFile("$rootDir/content/$archetype/$slug.md", $archetype);
 
         $contentFile->applyTimezoneOffset($timezoneOffsetInMinutes);
 
@@ -168,6 +168,17 @@ class RepoManager {
         $workingCopy->push();
     }
 
+    public function doesArchetypeHaveSingleView(Repository $repository, string $archetype) {
+        $rootDir = $this->getRepositoryDirectory($repository->name);
+
+        $themeFiles = array_merge(
+            glob("$rootDir/layouts/$archetype/single.html"),
+            glob("$rootDir/themes/**/layouts/$archetype/single.html"),
+        );
+
+        return count($themeFiles) > 0;
+    }
+
     private function getRepositoryDirectory(string $name) {
         $folderName = Str::slug($name);
 
@@ -190,11 +201,13 @@ class ContentFile {
     private $name;
     private $frontMatter;
     private $body;
+    private $archetype;
 
-    public function __construct(string $path) {
+    public function __construct(string $path, string $archetype) {
         $this->path = $path;
         $this->slug = Str::of($path)->basename('.md');
         $this->name = convertArchetypeSlugToTitle($this->slug);
+        $this->archetype = Str::slug($archetype);
     }
 
     public function getName() {
@@ -215,6 +228,10 @@ class ContentFile {
         if (!$this->body) $this->readFile();
 
         return $this->body;
+    }
+
+    public function getURI() {
+        return "/{$this->archetype}/{$this->slug}";
     }
 
     public function update(string $slug, array $frontMatter, string $body) {

@@ -15,11 +15,21 @@
 
     @if (session('created'))
         <x-alert-banner class="mt-3">
-            New <span class="font-bold">{{ Str::singular($archetype) }}</span> created.
+            New
+            <span class="italic">{{ Str::title(Str::singular(implode(' ', explode('-', $archetype)))) }}</span>
+            created.
         </x-alert-banner>
     @elseif (session('updated'))
         <x-alert-banner class="mt-3">
-            Changes to <span class="font-bold">{{ $contentFile->getName() }}</span> saved!
+            Changes to <span class="italic">{{ $contentFile->getName() }}</span> saved!
+            @if ($canPreview)
+                <a
+                    href="{{ route('repositories.preview', ['repository' => $repository->id, 'page' => $contentFile->getURI()]) }}"
+                    class="font-bold text-vt-blue-800 hover:text-vt-blue-900"
+                >
+                    Preview your changes
+                </a>.
+            @endif
         </x-alert-banner>
     @endif
 

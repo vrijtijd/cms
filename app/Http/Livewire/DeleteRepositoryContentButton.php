@@ -21,7 +21,7 @@ class DeleteRepositoryContentButton extends Component
         string $title
     ) {
         $this->repositoryId = $repositoryId;
-        $this->archetype = strtolower($archetype);
+        $this->archetype = $archetype;
         $this->slug = $slug;
         $this->title = $title;
     }

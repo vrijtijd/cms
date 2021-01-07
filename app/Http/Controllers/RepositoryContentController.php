@@ -6,8 +6,6 @@ use App\Models\Repository;
 use App\Services\RepoManager;
 use Illuminate\Http\Request;
 
-use function App\Services\convertArchetypeSlugToTitle;
-
 class RepositoryContentController extends Controller
 {
 
@@ -17,9 +15,10 @@ class RepositoryContentController extends Controller
         }
 
         return view('repositories.content.index', [
-            'archetype' => convertArchetypeSlugToTitle($archetype),
+            'archetype' => $archetype,
             'contentFiles' => $repoManager->getContentFiles($repository, $archetype),
             'repository' => $repository,
+            'canPreview' => $repoManager->doesArchetypeHaveSingleView($repository, $archetype),
         ]);
     }
 
@@ -48,9 +47,10 @@ class RepositoryContentController extends Controller
         }
 
         return view('repositories.content.edit', [
-            'archetype' => convertArchetypeSlugToTitle($archetype),
+            'archetype' => $archetype,
             'contentFile' => $repoManager->getContentFile($repository, $archetype, $slug),
             'repository' => $repository,
+            'canPreview' => $repoManager->doesArchetypeHaveSingleView($repository, $archetype),
         ]);
     }
 

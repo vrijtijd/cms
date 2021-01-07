@@ -1,12 +1,12 @@
 <x-repo-layout :repository="$repository">
     <h1 class="text-3xl font-bold">
-        {{ $archetype }}
+        {{ Str::title(implode(' ', explode('-', $archetype))) }}
     </h1>
 
     <x-form-panel
         class="mt-4"
         method="POST"
-        action="{{ route('repositories.content.store', [$repository->id, Str::slug($archetype)]) }}"
+        action="{{ route('repositories.content.store', [$repository->id, $archetype]) }}"
     >
         <x-input
             type="hidden"
@@ -44,8 +44,27 @@
             <x-tr>
                 <x-td>{{ $contentFile->getName() }}</x-td>
                 <x-td class="flex justify-end gap-2">
+                    @if ($canPreview)
+                        <a
+                            href="{{ route('repositories.preview', ['repository' => $repository->id, 'page' => $contentFile->getURI()]) }}"
+                            class="font-bold text-vt-blue-800 hover:text-vt-blue-900"
+                            target="contentPreview"
+                        >
+                            <x-icon-eye class="w-6 h-6"/>
+                        </a>
+
+                        @if ($repository->website)
+                            <a
+                                href="{{ "{$repository->website}{$contentFile->getURI()}" }}"
+                                class="font-bold text-vt-blue-800 hover:text-vt-blue-900"
+                                target="_blank"
+                            >
+                                <x-icon-external-link class="w-6 h-6"/>
+                            </a>
+                        @endif
+                    @endif
                     <a
-                        href="{{ route('repositories.content.edit', [$repository->id, Str::slug($archetype), $contentFile->getSlug()]) }}"
+                        href="{{ route('repositories.content.edit', [$repository->id, $archetype, $contentFile->getSlug()]) }}"
                         class="text-vt-blue-800 hover:text-vt-blue-900"
                     >
                         <x-icon-pencil class="w-6 h-6"/>

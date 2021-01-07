@@ -22,7 +22,10 @@
             <livewire:repository-preview-status-bar :repository="$repository"/>
 
             <x-icon-loading-indicator class="h-24 w-24 m-auto" id="loading-indicator"/>
-            <iframe id="preview" class="w-full flex-grow" src="/repositories/{{ $repository->id }}/preview/p/index.html"></iframe>
+            <iframe
+                id="preview"
+                class="w-full flex-grow"
+                src="/repositories/{{ $repository->id }}/preview/p/{{ ltrim($page, '/') }}"></iframe>
         </div>
 
         @stack('modals')
