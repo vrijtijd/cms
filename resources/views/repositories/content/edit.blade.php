@@ -8,7 +8,7 @@
 
 <x-repo-layout :repository="$repository">
     <div>
-        <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <h3 class="text-lg leading-6 font-medium text-vt-darkGray-800">
             {{ $contentFile->getName() }}
         </h3>
     </div>
@@ -17,14 +17,14 @@
         <x-alert-banner class="mt-3">
             New <span class="font-bold">{{ Str::singular($archetype) }}</span> created.
         </x-alert-banner>
-    @elseif (session('created'))
+    @elseif (session('updated'))
         <x-alert-banner class="mt-3">
             Changes to <span class="font-bold">{{ $contentFile->getName() }}</span> saved!
         </x-alert-banner>
     @endif
 
     <x-form-panel
-        class="space-y-4 divide-y divide-gray-200"
+        class="mt-3"
         method="PUT"
         action="{{ route('repositories.content.update', [$repository->id, $archetype, $contentFile->getSlug()]) }}"
     >

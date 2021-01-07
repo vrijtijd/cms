@@ -8,6 +8,13 @@
         method="POST"
         action="{{ route('repositories.content.store', [$repository->id, Str::slug($archetype)]) }}"
     >
+        <x-input
+            type="hidden"
+            name="timezoneOffsetInMinutes"
+            x-data="{ offset: -(new Date()).getTimezoneOffset() }"
+            x-model="offset"
+            />
+
         <div class="col-span-6 lg:col-span-4">
             <x-jet-label for="title" value="Title" />
 

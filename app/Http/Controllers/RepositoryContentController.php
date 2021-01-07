@@ -31,7 +31,8 @@ class RepositoryContentController extends Controller
         $contentFile = $repoManager->createContentFile(
             $repository,
             $archetype,
-            $request->input('title')
+            $request->input('title'),
+            $request->input('timezoneOffsetInMinutes'),
         );
 
         return redirect()->route('repositories.content.edit', [

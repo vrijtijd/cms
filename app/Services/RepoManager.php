@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Repository;
+use Carbon\Carbon;
 use DateTime;
 use GitWrapper\GitWrapper;
 use Illuminate\Support\Str;
@@ -90,7 +91,12 @@ class RepoManager {
         return new ContentFile($path);
     }
 
-    public function createContentFile(Repository $repository, string $archetype, $title) {
+    public function createContentFile(
+        Repository $repository,
+        string $archetype,
+        $title,
+        int $timezoneOffsetInMinutes
+    ) {
         if (!trim($title)) $title = strtotime('now');
 
         $slug = Str::slug($title);
@@ -99,7 +105,11 @@ class RepoManager {
 
         exec("cd $rootDir && hugo new $archetype/$slug.md");
 
-        return new ContentFile("$rootDir/content/$archetype/$slug.md");
+        $contentFile = new ContentFile("$rootDir/content/$archetype/$slug.md");
+
+        $contentFile->applyTimezoneOffset($timezoneOffsetInMinutes);
+
+        return $contentFile;
     }
 
     public function deleteContent(Repository $repository, string $archetype, string $slug) {
@@ -219,7 +229,7 @@ class ContentFile {
                 $frontMatter[$key] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
             } elseif (is_numeric($value)) {
                 $frontMatter[$key] = $value + 0;
-            } elseif (strtotime($value)) {
+            } elseif (Carbon::hasFormat($value, 'Y-m-dTH:i:sP')) {
                 $frontMatter[$key] = new DateTime($value);
             }
         }
@@ -249,6 +259,22 @@ EOF
         }
 
         return $this;
+    }
+
+    public function applyTimezoneOffset(int $timezoneOffsetInMinutes) {
+        $frontMatter = $this->getFrontMatter();
+
+        foreach ($frontMatter as $key => $value) {
+            if ($value instanceof DateTime) {
+                $frontMatter[$key] = Carbon::instance($value)->utcOffset($timezoneOffsetInMinutes)->format('Y-m-d\TH:i:sP');
+            }
+        }
+
+        $this->update(
+            $this->slug,
+            $frontMatter,
+            $this->body,
+        );
     }
 
     private function readFile() {
