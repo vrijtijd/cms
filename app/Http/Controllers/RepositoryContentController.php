@@ -3,73 +3,83 @@
 namespace App\Http\Controllers;
 
 use App\Models\Repository;
-use App\Services\RepoManager;
+use App\Services\RepositoryService\RepositoryService;
 use Illuminate\Http\Request;
 
 class RepositoryContentController extends Controller
 {
 
-    public function index(Repository $repository, string $archetype, RepoManager $repoManager) {
-        if (!$repoManager->isValidArchetype($repository, $archetype)) {
+    public function index(Repository $repository, string $archetypeSlug, RepositoryService $repositoryService) {
+        $archetype = $repositoryService->getArchetype($repository, $archetypeSlug);
+
+        if (!$archetype) {
             return redirect()->route('repositories.show', $repository->id);
         }
 
         return view('repositories.content.index', [
             'archetype' => $archetype,
-            'contentFiles' => $repoManager->getContentFiles($repository, $archetype),
+            'contentFiles' => $archetype->getContentFiles(),
             'repository' => $repository,
-            'canPreview' => $repoManager->doesArchetypeHaveSingleView($repository, $archetype),
+            'canPreview' => $archetype->hasSingleView(),
         ]);
     }
 
-    public function store(Request $request, Repository $repository, string $archetype, RepoManager $repoManager) {
-        if (!$repoManager->isValidArchetype($repository, $archetype)) {
+    public function store(Request $request, Repository $repository, string $archetypeSlug, RepositoryService $repositoryService) {
+        $archetype = $repositoryService->getArchetype($repository, $archetypeSlug);
+
+        if (!$archetype) {
             return redirect()->route('repositories.show', $repository->id);
         }
 
-        $contentFile = $repoManager->createContentFile(
-            $repository,
-            $archetype,
-            $request->input('title'),
+        $contentFile = $archetype->createContentFile(
+            $request->input('title') || '',
             $request->input('timezoneOffsetInMinutes'),
         );
 
         return redirect()->route('repositories.content.edit', [
             $repository->id,
-            $archetype,
+            $archetype->getSlug(),
             $contentFile->getSlug(),
         ])->with('created', true);
     }
 
-    public function edit(Repository $repository, string $archetype, string $slug, RepoManager $repoManager) {
-        if (!$repoManager->isValidArchetype($repository, $archetype)) {
+    public function edit(Repository $repository, string $archetypeName, string $slug, RepositoryService $repositoryService) {
+        $archetype = $repositoryService->getArchetype($repository, $archetypeName);
+
+        if (!$archetype) {
             return redirect()->route('repositories.show', $repository->id);
         }
 
         return view('repositories.content.edit', [
             'archetype' => $archetype,
-            'contentFile' => $repoManager->getContentFile($repository, $archetype, $slug),
+            'contentFile' => $archetype->getContentFile($slug),
             'repository' => $repository,
-            'canPreview' => $repoManager->doesArchetypeHaveSingleView($repository, $archetype),
+            'canPreview' => $archetype->hasSingleView(),
         ]);
     }
 
-    public function update(Request $request, Repository $repository, string $archetype, string $slug, RepoManager $repoManager) {
-        if (!$repoManager->isValidArchetype($repository, $archetype)) {
+    public function update(Request $request, Repository $repository, string $archetypeName, string $slug, RepositoryService $repositoryService) {
+        $request->validate([
+            'slug' => 'string|required',
+        ]);
+
+        $archetype = $repositoryService->getArchetype($repository, $archetypeName);
+
+        if (!$archetype) {
             return redirect()->route('repositories.show', $repository->id);
         }
 
-        $contentFile = $repoManager->getContentFile($repository, $archetype, $slug)
-                    ->update(
-                        $request->input('slug'),
-                        $request->input('frontmatter'),
-                        $request->input('body') ?: '',
-                    );
+        $contentFile = $archetype->getContentFile($slug)
+                                 ->update(
+                                     $request->input('slug'),
+                                     $request->input('frontmatter'),
+                                     $request->input('body') ?: '',
+                                 );
 
         // Need to redirect instead of `back()` because the slug might've changed
         return redirect()->route('repositories.content.edit', [
             $repository->id,
-            $archetype,
+            $archetype->getSlug(),
             $contentFile->getSlug(),
         ])->with('updated', true);
     }

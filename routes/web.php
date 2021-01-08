@@ -29,13 +29,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
 
         Route::get('repositories/{repository}/preview', PreviewRepositoryController::class)->name('repositories.preview');
         Route::get('repositories/{repository}/preview/p/{path?}', RepositoryStaticFileController::class)->where('path', '(.*)');
-        Route::get('repositories/{repository}/publish', PublishRepositoryController::class)->name('repositories.publish');
+
+        Route::get('repositories/{repository}/publish', PublishRepositoryController::class)->name('repositories.publish.form');
+        Route::put('repositories/{repository}/publish', PublishRepositoryController::class)->name('repositories.publish');
 
         Route::prefix('repositories/{repository}')->name('repositories.content.')->group(function() {
-            Route::get('{archetype}', [RepositoryContentController::class, 'index'])->name('index');
-            Route::post('{archetype}', [RepositoryContentController::class, 'store'])->name('store');
-            Route::get('{archetype}/{slug}', [RepositoryContentController::class, 'edit'])->name('edit');
-            Route::put('{archetype}/{slug}', [RepositoryContentController::class, 'update'])->name('update');
+            Route::get('{archetypeSlug}', [RepositoryContentController::class, 'index'])->name('index');
+            Route::post('{archetypeSlug}', [RepositoryContentController::class, 'store'])->name('store');
+            Route::get('{archetypeSlug}/{slug}', [RepositoryContentController::class, 'edit'])->name('edit');
+            Route::put('{archetypeSlug}/{slug}', [RepositoryContentController::class, 'update'])->name('update');
         });
     });
 

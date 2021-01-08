@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Repository;
-use App\Services\RepoManager;
+use App\Services\RepositoryService\RepositoryService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -24,10 +24,10 @@ class RepositoryPreviewStatusBar extends Component
         return view('livewire.repository-preview-status-bar');
     }
 
-    public function refreshPreview(RepoManager $repoManager) {
+    public function refreshPreview(RepositoryService $repositoryService) {
         $this->authorize('view', $this->repository);
 
-        $repoManager->build($this->repository);
+        $repositoryService->runBuild($this->repository);
         $this->emit('buildComplete');
     }
 }

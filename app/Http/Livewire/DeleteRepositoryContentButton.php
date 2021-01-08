@@ -3,26 +3,26 @@
 namespace App\Http\Livewire;
 
 use App\Models\Repository;
-use App\Services\RepoManager;
+use App\Services\RepositoryService\RepositoryService;
 use Livewire\Component;
 
 class DeleteRepositoryContentButton extends Component
 {
     public $isModalOpen = false;
     public $repositoryId;
-    public $archetype;
-    public $slug;
+    public $archetypeSlug;
+    public $contentFileSlug;
     public $title;
 
     public function mount(
         int $repositoryId,
-        string $archetype,
-        string $slug,
+        string $archetypeSlug,
+        string $contentFileSlug,
         string $title
     ) {
         $this->repositoryId = $repositoryId;
-        $this->archetype = $archetype;
-        $this->slug = $slug;
+        $this->archetypeSlug = $archetypeSlug;
+        $this->contentFileSlug = $contentFileSlug;
         $this->title = $title;
     }
 
@@ -31,13 +31,11 @@ class DeleteRepositoryContentButton extends Component
         return view('livewire.delete-repository-content-button');
     }
 
-    public function deleteContentFile(RepoManager $repoManager) {
-        $repoManager->deleteContent(
-            Repository::find($this->repositoryId),
-            $this->archetype,
-            $this->slug,
-        );
+    public function deleteContentFile(RepositoryService $repositoryService) {
+        $repositoryService->getArchetype(Repository::find($this->repositoryId), $this->archetypeSlug)
+                          ->getContentFile($this->contentFileSlug)
+                          ->delete();
 
-        return redirect()->route('repositories.content.index', [$this->repositoryId, $this->archetype]);
+        return redirect()->route('repositories.content.index', [$this->repositoryId, $this->archetypeSlug]);
     }
 }

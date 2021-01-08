@@ -1,12 +1,12 @@
 <x-repo-layout :repository="$repository">
     <h1 class="text-3xl font-bold">
-        {{ Str::title(implode(' ', explode('-', $archetype))) }}
+        {{ $archetype->getName() }}
     </h1>
 
     <x-form-panel
         class="mt-4"
         method="POST"
-        action="{{ route('repositories.content.store', [$repository->id, $archetype]) }}"
+        action="{{ route('repositories.content.store', [$repository->id, $archetype->getSlug()]) }}"
     >
         <x-input
             type="hidden"
@@ -64,15 +64,15 @@
                         @endif
                     @endif
                     <a
-                        href="{{ route('repositories.content.edit', [$repository->id, $archetype, $contentFile->getSlug()]) }}"
+                        href="{{ route('repositories.content.edit', [$repository->id, $archetype->getSlug(), $contentFile->getSlug()]) }}"
                         class="text-vt-blue-800 hover:text-vt-blue-900"
                     >
                         <x-icon-pencil class="w-6 h-6"/>
                     </a>
                     <livewire:delete-repository-content-button
                         :repositoryId="$repository->id"
-                        :archetype="$archetype"
-                        :slug="$contentFile->getSlug()"
+                        :archetypeSlug="$archetype->getSlug()"
+                        :contentFileSlug="$contentFile->getSlug()"
                         :title="$contentFile->getName()" />
                 </x-td>
             </x-tr>

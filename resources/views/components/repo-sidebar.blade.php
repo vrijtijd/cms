@@ -14,9 +14,9 @@
                     @foreach ($archetypes as $archetype)
                         <x-sidebar-link
                             icon="document-text"
-                            href="{{ route('repositories.content.index', [$repository->id, Str::slug($archetype)]) }}"
+                            href="{{ route('repositories.content.index', [$repository->id, $archetype->getSlug()]) }}"
                         >
-                            {{ $archetype }}
+                            {{ $archetype->getName() }}
                         </x-sidebar-link>
                     @endforeach
                     <x-sidebar-link
@@ -28,7 +28,7 @@
                     </x-sidebar-link>
                     <x-sidebar-link
                         icon="cloud-upload"
-                        href="{{ route('repositories.publish', [$repository->id]) }}"
+                        href="{{ route('repositories.publish.form', [$repository->id]) }}"
                     >
                         Publish
                     </x-sidebar-link>

@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Repository;
-use App\Services\RepoManager;
-use Illuminate\Http\Request;
+use App\Services\RepositoryService\RepositoryService;
 
 class RepositoryStaticFileController extends Controller
 {
@@ -14,9 +13,9 @@ class RepositoryStaticFileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(RepoManager $repoManager, Repository $repository, string $path = '')
+    public function __invoke(RepositoryService $repositoryService, Repository $repository, string $path = '')
     {
-        [$file, $mimeType] = $repoManager->getStaticFile($repository, $path);
+        [$file, $mimeType] = $repositoryService->getStaticFile($repository, $path);
 
         return response($file)->header('Content-Type', $mimeType);
     }

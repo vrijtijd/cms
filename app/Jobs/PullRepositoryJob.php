@@ -3,9 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\Repository;
-use App\Services\RepoManager;
+use App\Services\RepositoryService\RepositoryService;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -32,10 +31,8 @@ class PullRepositoryJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle(RepoManager $repoManager)
+    public function handle(RepositoryService $repositoryService)
     {
-        $repoManager->pullRepository(
-            $this->repository
-        );
+        $repositoryService->pullRepository($this->repository);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Repository;
-use App\Services\RepoManager;
+use App\Services\RepositoryService\RepositoryService;
 use Livewire\Component;
 
 class DeleteRepositoryButton extends Component
@@ -25,8 +25,8 @@ class DeleteRepositoryButton extends Component
         return view('livewire.delete-repository-button');
     }
 
-    public function deleteRepository(RepoManager $repoManager) {
-        $repoManager->deleteRepository(
+    public function deleteRepository(RepositoryService $repositoryService) {
+        $repositoryService->deleteRepository(
             Repository::find($this->repositoryId)
         );
 

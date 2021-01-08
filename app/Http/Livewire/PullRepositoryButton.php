@@ -4,7 +4,6 @@ namespace App\Http\Livewire;
 
 use App\Jobs\PullRepositoryJob;
 use App\Models\Repository;
-use App\Services\RepoManager;
 use Livewire\Component;
 
 class PullRepositoryButton extends Component

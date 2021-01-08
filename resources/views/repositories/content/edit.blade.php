@@ -16,7 +16,7 @@
     @if (session('created'))
         <x-alert-banner class="mt-3">
             New
-            <span class="italic">{{ Str::title(Str::singular(implode(' ', explode('-', $archetype)))) }}</span>
+            <span class="italic">{{ Str::singular(strtolower($archetype->getName())) }}</span>
             created.
         </x-alert-banner>
     @elseif (session('updated'))
@@ -26,6 +26,7 @@
                 <a
                     href="{{ route('repositories.preview', ['repository' => $repository->id, 'page' => $contentFile->getURI()]) }}"
                     class="font-bold text-vt-blue-800 hover:text-vt-blue-900"
+                    target="contentPreview"
                 >
                     Preview your changes
                 </a>.
@@ -36,7 +37,7 @@
     <x-form-panel
         class="mt-3"
         method="PUT"
-        action="{{ route('repositories.content.update', [$repository->id, $archetype, $contentFile->getSlug()]) }}"
+        action="{{ route('repositories.content.update', [$repository->id, $archetype->getSlug(), $contentFile->getSlug()]) }}"
     >
         <div class="col-span-6 lg:col-span-4">
             <x-jet-label for="slug" value="Slug" />
@@ -62,7 +63,7 @@
 
         <x-slot name="actions">
             <x-jet-secondary-button
-                href="{{ route('repositories.content.index', [$repository->id, $archetype]) }}"
+                href="{{ route('repositories.content.index', [$repository->id, $archetype->getSlug()]) }}"
             >
                 Cancel
             </x-jet-secondary-button>

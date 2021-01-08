@@ -3,7 +3,7 @@
 namespace App\View\Components;
 
 use App\Models\Repository;
-use App\Services\RepoManager;
+use App\Services\RepositoryService\RepositoryService;
 use Illuminate\View\Component;
 
 class RepoSidebar extends Component
@@ -16,10 +16,10 @@ class RepoSidebar extends Component
      *
      * @return void
      */
-    public function __construct(Repository $repository, RepoManager $repoManager)
+    public function __construct(Repository $repository, RepositoryService $repositoryService)
     {
         $this->repository = $repository;
-        $this->archetypes = $repoManager->getArchetypes($repository);
+        $this->archetypes = $repositoryService->getArchetypes($repository);
     }
 
     /**

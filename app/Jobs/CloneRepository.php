@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Services\RepoManager;
+use App\Services\RepositoryService\RepositoryService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -36,9 +36,9 @@ class CloneRepository implements ShouldQueue
      *
      * @return void
      */
-    public function handle(RepoManager $repoManager)
+    public function handle(RepositoryService $repositoryService)
     {
-        $repoManager->createRepository(
+        $repositoryService->cloneRepository(
             $this->name,
             $this->url,
             $this->website,
