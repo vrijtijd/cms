@@ -53,6 +53,23 @@ class RepositoryService {
         $workingCopy->push();
     }
 
+    public function updateRepository(Repository $repository, string $name, string $url, string $website, int $teamId) {
+        $workingCopy = $this->gitWrapper->workingCopy($this->getRepositoryDirectory($repository->name));
+        $workingCopy->remote("set-url", "origin", $url);
+
+        $oldDir = $this->getRepositoryDirectory($repository->name);
+        $newDir = $this->getRepositoryDirectory($name);
+
+        $repository->update([
+            'name' => $name,
+            'url' => $url,
+            'website' => $website,
+            'team_id' => $teamId,
+        ]);
+
+        exec("mv $oldDir $newDir");
+    }
+
     public function deleteRepository(Repository $repository) {
         $directory = $this->getRepositoryDirectory($repository->name);
 
@@ -128,6 +145,12 @@ class RepositoryService {
             file_get_contents($path),
             $mimeType,
         ];
+    }
+
+    public function doesRepositoryDirectoryExist(string $name) {
+        $rootDir = $this->getRepositoryDirectory($name);
+
+        return is_dir($rootDir) || file_exists($rootDir);
     }
 
     private function getRepositoryDirectory(string $name) {

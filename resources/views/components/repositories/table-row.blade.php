@@ -25,6 +25,11 @@
                 <x-icon-external-link class="w-6 h-6"/>
             </a>
         @endif
+        <a href="{{ route('admin.repositories.edit', [$repository->id]) }}"
+            class="text-vt-blue-800 hover:text-vt-blue-900"
+        >
+            <x-icon-pencil class="w-6 h-6"/>
+        </a>
         <livewire:delete-repository-button
             :repositoryId="$repository->id"
             :name="$repository->name"/>

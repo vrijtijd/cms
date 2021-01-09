@@ -43,7 +43,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
 
     Route::redirect('/admin', '/admin/repositories')->name('admin');
     Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function() {
-        Route::resource('repositories', RepositoryController::class)->only('index', 'store');
+        Route::resource('repositories', RepositoryController::class)->only('index', 'store', 'edit', 'update');
         Route::resource('users', UserController::class)->only('index', 'store');
         Route::resource('teams', TeamController::class)->only('index');
     });

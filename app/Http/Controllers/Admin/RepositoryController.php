@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RepositoryRequest;
 use App\Jobs\CloneRepository;
 use App\Models\Repository;
 use App\Models\Team;
-use Illuminate\Http\Request;
+use App\Services\RepositoryService\RepositoryService;
 
 class RepositoryController extends Controller
 {
@@ -23,14 +24,7 @@ class RepositoryController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
-        $request->validate([
-            'name' => 'required',
-            'url' => 'required',
-            'website' => 'nullable|url',
-            'team' => 'integer|exists:teams,id',
-        ]);
-
+    public function store(RepositoryRequest $request) {
         dispatch(new CloneRepository(
             $request->input('name'),
             $request->input('url'),
@@ -39,5 +33,24 @@ class RepositoryController extends Controller
         ));
 
         return back();
+    }
+
+    public function edit(Repository $repository) {
+        return view('admin.repositories.edit', [
+            'repository' => $repository,
+            'teams' => Team::all(),
+        ]);
+    }
+
+    public function update(RepositoryRequest $request, Repository $repository, RepositoryService $repositoryService) {
+        $repositoryService->updateRepository(
+            $repository,
+            $request->input('name'),
+            $request->input('url'),
+            $request->input('website') ?: '',
+            $request->input('team'),
+        );
+
+        return back()->with('updated', true);
     }
 }
