@@ -19,7 +19,7 @@ class PublishRepositoryController extends Controller
 
         return view('repositories.publish', [
             'repository' => $repository,
-            'hasChanges' => $repositoryService->doesRepositoryHaveChanges($repository),
+            'contentChanges' => $repositoryService->getChanges($repository),
         ]);
     }
 }

@@ -45,6 +45,10 @@ class ContentFile {
         return "/{$this->archetype->getSlug()}/{$this->slug}";
     }
 
+    public function getArchetype() {
+        return $this->archetype;
+    }
+
     public function update(string $slug, array $frontMatter, string $body) {
         $slug = Str::slug($slug);
         $this->frontMatter = $frontMatter;

@@ -61,10 +61,26 @@ class RepositoryService {
         $repository->delete();
     }
 
-    public function doesRepositoryHaveChanges(Repository $repository) {
-        return $this->gitWrapper
-                    ->workingCopy($this->getRepositoryDirectory($repository->name))
-                    ->hasChanges();
+    public function getChanges(Repository $repository) {
+        $workingCopy = $this->gitWrapper->workingCopy($this->getRepositoryDirectory($repository->name));
+        $workingCopy->add('.');
+
+        $status = trim($workingCopy->status('--short'));
+
+        if (strlen($status) === 0) return [];
+
+        $statusLines = explode("\n", $status);
+
+        $archetypes = $this->getArchetypes($repository);
+
+        $changes = array_map(function ($statusLine) use ($archetypes) {
+            return new ContentChange($statusLine, $archetypes);
+        }, $statusLines);
+
+        return collect($changes)->groupBy(function (ContentChange $contentChange) {
+            return $contentChange->getType();
+        });
+
     }
 
     public function getArchetype(Repository $repository, string $archetypeSlug) {
