@@ -3,9 +3,11 @@
 namespace App\Services\RepositoryService;
 
 use App\Models\Repository;
+use ErrorException;
 use GitWrapper\GitWrapper;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Livewire\TemporaryUploadedFile;
 
 class RepositoryService {
     private $gitWrapper;
@@ -88,16 +90,9 @@ class RepositoryService {
 
         $statusLines = explode("\n", $status);
 
-        $archetypes = $this->getArchetypes($repository);
-
-        $changes = array_map(function ($statusLine) use ($archetypes) {
-            return new ContentChange($statusLine, $archetypes);
-        }, $statusLines);
-
-        return collect($changes)->groupBy(function (ContentChange $contentChange) {
-            return $contentChange->getType();
-        });
-
+        return collect($statusLines)->groupBy(function (string $statusLine) {
+            return $statusLine[0];
+        })->toArray();
     }
 
     public function getArchetype(Repository $repository, string $archetypeSlug) {
@@ -123,12 +118,80 @@ class RepositoryService {
         exec("cd $rootDir && yarn && NODE_ENV=production HUGO_BASEURL='$baseUrl' hugo");
     }
 
-    public function getStaticFile(Repository $repository, string $relativePath) {
+    public function getPublicFile(Repository $repository, string $relativePath) {
+        return $this->getFile($repository, "public/$relativePath");
+    }
+
+    public function doesRepositoryDirectoryExist(string $name) {
+        $rootDir = $this->getRepositoryDirectory($name);
+
+        return is_dir($rootDir) || file_exists($rootDir);
+    }
+
+    public function getUploads(Repository $repository) {
+        $rootDir = $this->getRepositoryDirectory($repository->name);
+        $uploads = glob("$rootDir/static/uploads/**");
+
+        return array_map(function ($path) use ($rootDir) {
+            return str_replace("$rootDir/static/uploads/", '', $path);
+        }, $uploads);
+    }
+
+    public function getUpload(Repository $repository, string $path) {
+        return $this->getFile($repository, "/static/uploads/$path");
+    }
+
+    public function addUploadedFile(Repository $repository, TemporaryUploadedFile $file) {
+        $tempPath = $file->getRealPath();
+        $extension = pathinfo($tempPath, PATHINFO_EXTENSION);
+
+        do {
+            $filename = substr(md5(rand()), 10) . '.' . $extension;
+        } while (file_exists($filename));
+
+        $this->placeUploadedFile($repository, $filename, $file);
+
+        return $filename;
+    }
+
+    public function placeUploadedFile(Repository $repository, string $filename, TemporaryUploadedFile $file) {
+        $rootDir = $this->getRepositoryDirectory($repository->name);
+
+        rename($file->getRealPath(), "$rootDir/static/uploads/$filename");
+    }
+
+    public function deleteUploadedFile(Repository $repository, string $filename) {
+        $rootDir = $this->getRepositoryDirectory($repository->name);
+
+        unlink("$rootDir/static/uploads/$filename");
+    }
+
+    private function getRepositoryDirectory(string $name) {
+        $folderName = Str::slug($name);
+
+        return base_path() . "/repos/$folderName";
+    }
+
+    private function getArchetypeFiles(Repository $repository) {
+        $rootDir = $this->getRepositoryDirectory($repository->name);
+
+        return array_merge(
+            glob($rootDir . '/archetypes/*.md'),
+            glob($rootDir . '/themes/**/archetypes/*.md'),
+        );
+    }
+
+    private function getFile(Repository $repository, string $relativePath) {
         $rootDir = $this->getRepositoryDirectory($repository->name);
         $relativePath = str_replace('../', '', $relativePath);
 
-        $path = "$rootDir/public/$relativePath";
-        $mimeType = mime_content_type($path);
+
+        $path = "$rootDir/$relativePath";
+        try {
+            $mimeType = mime_content_type($path);
+        } catch (ErrorException $e) {
+            return [null, null];
+        }
 
         $extension = pathinfo($path, PATHINFO_EXTENSION);
 
@@ -145,26 +208,5 @@ class RepositoryService {
             file_get_contents($path),
             $mimeType,
         ];
-    }
-
-    public function doesRepositoryDirectoryExist(string $name) {
-        $rootDir = $this->getRepositoryDirectory($name);
-
-        return is_dir($rootDir) || file_exists($rootDir);
-    }
-
-    private function getRepositoryDirectory(string $name) {
-        $folderName = Str::slug($name);
-
-        return base_path() . "/repos/$folderName";
-    }
-
-    private function getArchetypeFiles(Repository $repository) {
-        $rootDir = $this->getRepositoryDirectory($repository->name);
-
-        return array_merge(
-            glob($rootDir . '/archetypes/*.md'),
-            glob($rootDir . '/themes/**/archetypes/*.md'),
-        );
     }
 }

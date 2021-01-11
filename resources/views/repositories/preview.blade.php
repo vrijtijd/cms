@@ -16,6 +16,9 @@
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <script>
+            window.publicFileRootUrl = "{{ route('repositories.public-files.show', [$repository->id]) }}"
+        </script>
     </head>
     <body class="font-sans antialiased">
         <div class="flex flex-col min-h-screen bg-vt-blue-100">

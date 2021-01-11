@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Repository;
 use App\Services\RepositoryService\RepositoryService;
 
-class RepositoryStaticFileController extends Controller
+class RepositoryPublicFileController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -15,7 +15,11 @@ class RepositoryStaticFileController extends Controller
      */
     public function __invoke(RepositoryService $repositoryService, Repository $repository, string $path = '')
     {
-        [$file, $mimeType] = $repositoryService->getStaticFile($repository, $path);
+        [$file, $mimeType] = $repositoryService->getPublicFile($repository, $path);
+
+        if ($file === null) {
+            abort(404);
+        }
 
         return response($file)->header('Content-Type', $mimeType);
     }

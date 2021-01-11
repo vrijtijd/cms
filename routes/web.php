@@ -6,7 +6,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PublishRepositoryController;
 use App\Http\Controllers\RepositoryContentController;
 use App\Http\Controllers\PreviewRepositoryController;
-use App\Http\Controllers\RepositoryStaticFileController;
+use App\Http\Controllers\RepositoryPublicFileController;
+use App\Http\Controllers\RepositoryUploadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,10 +29,16 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function() {
         Route::resource('repositories', RepositoryController::class)->only('show');
 
         Route::get('repositories/{repository}/preview', PreviewRepositoryController::class)->name('repositories.preview');
-        Route::get('repositories/{repository}/preview/p/{path?}', RepositoryStaticFileController::class)->where('path', '(.*)');
+        Route::get('repositories/{repository}/preview/p/{path?}', RepositoryPublicFileController::class)->where('path', '(.*)')
+                                                                                                        ->name('repositories.public-files.show');
 
         Route::get('repositories/{repository}/publish', PublishRepositoryController::class)->name('repositories.publish.form');
         Route::put('repositories/{repository}/publish', PublishRepositoryController::class)->name('repositories.publish');
+
+        Route::prefix('repositories/{repository}')->name('repositories.uploads.')->group(function() {
+            Route::get('uploads', [RepositoryUploadController::class, 'index'])->name('index');
+            Route::get('uploads/{path}', [RepositoryUploadController::class, 'show'])->name('show');
+        });
 
         Route::prefix('repositories/{repository}')->name('repositories.content.')->group(function() {
             Route::get('{archetypeSlug}', [RepositoryContentController::class, 'index'])->name('index');

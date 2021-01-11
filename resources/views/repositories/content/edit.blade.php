@@ -72,4 +72,5 @@
             </x-jet-button>
         </x-slot>
     </x-form-panel>
+    <livewire:file-picker-modal :repository="$repository"/>
 </x-repo-layout>

@@ -20,6 +20,12 @@
                         </x-sidebar-link>
                     @endforeach
                     <x-sidebar-link
+                        icon="upload"
+                        href="{{ route('repositories.uploads.index', [$repository->id]) }}"
+                    >
+                        Uploads
+                    </x-sidebar-link>
+                    <x-sidebar-link
                         icon="eye"
                         href="{{ route('repositories.preview', [$repository->id]) }}"
                         target="_blank"

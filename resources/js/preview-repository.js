@@ -4,6 +4,19 @@
         const previewFrame = document.getElementById('preview')
         const loadingIndicator = document.getElementById('loading-indicator')
 
+        const rewriteAbsoluteImageUrls = () => {
+            previewFrame.contentWindow.document.querySelectorAll('img').forEach((img) => {
+                const src = img.getAttribute('src') || ''
+
+                if (src.startsWith('/')) {
+                    img.src = `${window.publicFileRootUrl}${src}`
+                    console.log(`${window.publicFileRootUrl}${src}`)
+                }
+            })
+        }
+
+        previewFrame.addEventListener('load', rewriteAbsoluteImageUrls)
+
         // Most of this code is to work around Livewire limitations. There is no way
         // to emit an event at the same time as firing an action, and loading states
         // don't work as expected when emiting an action, so I have to write a bit more

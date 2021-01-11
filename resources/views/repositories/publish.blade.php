@@ -10,7 +10,7 @@
         </x-alert-banner>
     @endif
 
-    @if (count($contentChanges) === 0)
+    @if (count($changes) === 0)
         <p class="text-sm text-vt-darkGray-500">
             There's nothing to publish! Add/edit/delete content in order to publish changes to your website.
         </p>
@@ -52,7 +52,14 @@
         </div>
 
         <div class="mt-5">
-            <x-repositories.content-changes :repository="$repository" :changes="$contentChanges"/>
+            @foreach ($changes as $changeType => $repositoryChanges)
+                <div class="mb-3">
+                    <x-repositories.changes.change-group
+                        :repository="$repository"
+                        :changeType="$changeType"
+                        :changes="$repositoryChanges"/>
+                </div>
+            @endforeach
         </div>
     @endif
 </x-repo-layout>
