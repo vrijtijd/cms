@@ -70,7 +70,7 @@
                         <x-icon-pencil class="w-6 h-6"/>
                     </a>
                     <livewire:delete-repository-content-button
-                        :repositoryId="$repository->id"
+                        :repository="$repository"
                         :archetypeSlug="$archetype->getSlug()"
                         :contentFileSlug="$contentFile->getSlug()"
                         :title="$contentFile->getName()" />

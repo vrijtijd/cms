@@ -4,13 +4,10 @@ namespace App\Http\Livewire;
 
 use App\Models\Repository;
 use App\Services\RepositoryService\RepositoryService;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class FilePickerModal extends Component
 {
-    use AuthorizesRequests;
-
     public $repository;
     public $filenames;
     public $isModalOpen = false;

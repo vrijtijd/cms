@@ -4,10 +4,13 @@ namespace App\Http\Livewire;
 
 use App\Models\Repository;
 use App\Services\RepositoryService\RepositoryService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class UploadedFileList extends Component
 {
+    use AuthorizesRequests;
+
     public $repository;
     public $filenames;
 
@@ -28,6 +31,8 @@ class UploadedFileList extends Component
     }
 
     public function refresh(RepositoryService $repositoryService) {
+        $this->authorize('view', $this->repository);
+
         $this->filenames = $repositoryService->getUploads($this->repository);
     }
 }

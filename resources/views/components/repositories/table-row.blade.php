@@ -31,7 +31,7 @@
             <x-icon-pencil class="w-6 h-6"/>
         </a>
         <livewire:delete-repository-button
-            :repositoryId="$repository->id"
+            :repository="$repository"
             :name="$repository->name"/>
     </x-td>
 </x-tr>

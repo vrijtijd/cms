@@ -4,19 +4,22 @@ namespace App\Http\Livewire;
 
 use App\Models\Repository;
 use App\Services\RepositoryService\RepositoryService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class DeleteRepositoryButton extends Component
 {
+    use AuthorizesRequests;
+
     public $isModalOpen = false;
-    public $repositoryId;
+    public $repository;
     public $name;
 
     public function mount(
-        int $repositoryId,
+        Repository $repository,
         string $name
     ) {
-        $this->repositoryId = $repositoryId;
+        $this->repository = $repository;
         $this->name = $name;
     }
 
@@ -26,10 +29,10 @@ class DeleteRepositoryButton extends Component
     }
 
     public function deleteRepository(RepositoryService $repositoryService) {
-        $repositoryService->deleteRepository(
-            Repository::find($this->repositoryId)
-        );
+        $this->authorize('view', $this->repository);
 
-        return redirect()->route('admin.repositories.index', $this->repositoryId);
+        $repositoryService->deleteRepository($this->repository);
+
+        return redirect()->route('admin.repositories.index', $this->repository->id);
     }
 }
