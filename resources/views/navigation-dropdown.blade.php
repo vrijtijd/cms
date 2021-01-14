@@ -9,9 +9,11 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('admin') }}" :active="request()->routeIs('admin*')">
-                        {{ __('Admin') }}
-                    </x-jet-nav-link>
+                    @if (Auth::user()->is_admin)
+                        <x-jet-nav-link href="{{ route('admin') }}" :active="request()->routeIs('admin*')">
+                            {{ __('Admin') }}
+                        </x-jet-nav-link>
+                    @endif
 
                     @foreach (Auth::user()->currentTeam->repositories as $repository)
                         <x-jet-nav-link
