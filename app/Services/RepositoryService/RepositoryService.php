@@ -90,7 +90,9 @@ class RepositoryService {
 
         $statusLines = explode("\n", $status);
 
-        return collect($statusLines)->groupBy(function (string $statusLine) {
+        return collect($statusLines)->filter(function (string $statusLine) {
+            return preg_match('/^\w\s+(content|static)/', $statusLine);
+        })->groupBy(function (string $statusLine) {
             return $statusLine[0];
         })->toArray();
     }

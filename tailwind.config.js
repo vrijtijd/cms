@@ -58,11 +58,18 @@ module.exports = {
             fontFamily: {
                 sans: ['Poppins', ...defaultTheme.fontFamily.sans],
             },
+            cursor: {
+                grab: 'grab',
+                grabbing: 'grabbing',
+            },
         },
     },
 
     variants: {
-        opacity: ['responsive', 'hover', 'focus', 'disabled'],
+        extend: {
+            opacity: ['responsive', 'hover', 'focus', 'disabled'],
+            padding: ['last'],
+        }
     },
 
     plugins: [

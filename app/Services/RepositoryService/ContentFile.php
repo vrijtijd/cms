@@ -94,6 +94,18 @@ EOF
         return $this;
     }
 
+    public function setWeight(int $weight) {
+        $frontMatter = array_merge($this->getFrontMatter(), [
+            'weight' => $weight,
+        ]);
+
+        $this->update(
+            $this->getSlug(),
+            $frontMatter,
+            $this->getBody(),
+        );
+    }
+
     public function applyTimezoneOffset(int $timezoneOffsetInMinutes) {
         $frontMatter = $this->getFrontMatter();
 

@@ -1,3 +1,11 @@
+@php($isOrdered = $archetype->isOrdered())
+
+@push('scripts')
+    @if ($isOrdered)
+        <script src="{{ mix('js/content-table.js') }}"></script>
+    @endif
+@endpush
+
 <x-repo-layout :repository="$repository">
     <h1 class="text-3xl font-bold">
         {{ $archetype->getName() }}
@@ -34,15 +42,36 @@
         </x-slot>
     </x-form-panel>
 
-    <x-table class="mt-3">
+    <x-table class="mt-3" id="content-table">
         <x-slot name="headings">
-            <x-th>Title</x-th>
+            @if ($isOrdered)
+                <x-th>
+                    <livewire:save-content-file-order-button :repository="$repository" :archetypeSlug="$archetype->getSlug()" />
+                </x-th>
+            @endif
+            <x-th class="text-left">Title</x-th>
             <x-th><span class="sr-only">Edit</span></x-th>
         </x-slot>
 
         @foreach($contentFiles as $contentFile)
-            <x-tr>
-                <x-td>{{ $contentFile->getName() }}</x-td>
+            <x-tr
+                class="bg-white"
+                data-content-file-slug="{{ $contentFile->getSlug() }}"
+                x-data="{ dragging: false }"
+                x-bind:class="{ 'cursor-grabbing': dragging }"
+                @mouseup="dragging = false"
+            >
+                @if ($isOrdered)
+                    <x-td
+                        data-is-drag-handle
+                        x-bind:class="{ 'cursor-grabbing': dragging, 'cursor-grab': !dragging }"
+                        @mousedown="dragging = true"
+                        @mouseup="dragging = false"
+                    >
+                        <x-icon-menu class="h-6 w-6"/>
+                    </x-td>
+                @endif
+                <x-td class="w-full">{{ $contentFile->getName() }}</x-td>
                 <x-td class="flex justify-end gap-2">
                     @if ($canPreview)
                         <a

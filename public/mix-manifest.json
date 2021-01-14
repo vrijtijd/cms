@@ -1,6 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/content-editor.js": "/js/content-editor.js",
+    "/js/content-table.js": "/js/content-table.js",
     "/js/preview-repository.js": "/js/preview-repository.js",
     "/css/app.css": "/css/app.css",
     "/css/simplemde.min.css": "/css/simplemde.min.css"
