@@ -52,7 +52,6 @@ class ContentFile {
     public function update(string $slug, array $frontMatter, string $body) {
         $slug = Str::slug($slug);
         $this->frontMatter = $frontMatter;
-        $this->body = $body;
 
         $fileHandle = fopen($this->path, 'w');
 
@@ -68,13 +67,16 @@ class ContentFile {
 
         $frontMatterYaml = trim(Yaml::dump($frontMatter));
         $body = str_replace("\r", '', $body); // Remove carriage returns
-        $body = preg_replace('/^[ \t\f]+|[ \t\f]+$/m', '', $body); // trim each line
+        $body = preg_replace('/^[ \t\f]+|[ \t\f]+$/m', '', trim($body)); // trim each line
         $body = preg_replace('/^(.+)$/m', '\1  ', $body); // force markdown newlines
+
+        $this->body = $body;
 
         fwrite($fileHandle, <<<EOF
 ---
 $frontMatterYaml
 ---
+
 $body
 
 EOF
