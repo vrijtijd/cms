@@ -116,8 +116,15 @@ class RepositoryService {
         $rootDir = $this->getRepositoryDirectory($repository->name);
         $appUrl = config('app.url');
         $baseUrl = "$appUrl/repositories/{$repository->id}/preview/p/";
+        $cacheDir = env('HUGO_CACHEDIR', '');
 
-        exec("cd $rootDir && yarn && NODE_ENV=production HUGO_BASEURL='$baseUrl' hugo");
+        exec(implode(' ', [
+            "cd $rootDir",
+            "&& yarn",
+            "&& NODE_ENV=production HUGO_BASEURL='$baseUrl'",
+            empty($cacheDir) ? '' : "HUGO_CACHEDIR=$cacheDir",
+            "hugo",
+        ]));
     }
 
     public function getPublicFile(Repository $repository, string $relativePath) {
