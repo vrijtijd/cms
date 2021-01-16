@@ -16,6 +16,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/content-table.js', 'public/js')
     .js('resources/js/preview-repository.js', 'public/js')
     .copy('node_modules/simplemde/dist/simplemde.min.css', 'public/css')
+    .copy('node_modules/tippy.js/dist/tippy.css', 'public/css')
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),
         require('tailwindcss'),

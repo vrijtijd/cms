@@ -16,7 +16,13 @@
         @endforeach
     </x-td>
     <x-td class="flex justify-end gap-2">
-        <a href="{{ route('teams.show', $team->id) }}" class="text-vt-blue-800 hover:text-vt-blue-900">
+        <a
+            href="{{ route('teams.show', $team->id) }}"
+            class="text-vt-blue-800 hover:text-vt-blue-900"
+            x-data=""
+            x-init="window.tippy($el)"
+            data-tippy-content="Edit"
+        >
             <x-icon-pencil class="w-6 h-6" />
         </a>
     </x-td>

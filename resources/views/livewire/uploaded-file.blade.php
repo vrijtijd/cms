@@ -8,10 +8,20 @@
                 href="{{ route('repositories.uploads.show', [$repository->id, $filename]) }}"
                 class="text-vt-blue-600 hover:bg-vt-lightGray-100 focus:bg-vt-lightGray-100 w-full p-2 flex-1 flex items-center"
                 target="_blank"
+                x-data=""
+                x-init="window.tippy($el)"
+                data-tippy-content="Open in a new tab"
             >
                 <x-icon-external-link class="w-6 h-6 mx-auto"/>
             </a>
-            <form wire:submit.prevent="replace" x-data="{ loading: false }" x-ref="form" class="flex flex-1">
+            <form
+                wire:submit.prevent="replace"
+                x-data="{ loading: false }"
+                x-ref="form"
+                x-init="window.tippy($el)"
+                data-tippy-content="Replace file"
+                class="flex flex-1"
+            >
                 <input
                     type="file"
                     class="hidden"
@@ -35,6 +45,9 @@
                 wire:click="$toggle('isModalOpen')"
                 wire:loading.attr="disabled"
                 wire:loading.class.remove="hover:bg-vt-lightGray-100 focus:bg-vt-lightGray-100"
+                x-data=""
+                x-init="window.tippy($el)"
+                data-tippy-content="Delete"
             >
                 <x-icon-trash class="w-6 h-6 mx-auto"/>
             </button>

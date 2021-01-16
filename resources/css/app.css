@@ -13,3 +13,11 @@
 .CodeMirror-sizer + div:not([class]) {
     @apply hidden;
 }
+
+.tippy-box[data-theme~='vt'] {
+    @apply bg-vt-darkGray-900 px-2 py-1 rounded text-white;
+}
+
+.tippy-box[data-theme~='vt'] > .tippy-arrow {
+    @apply text-vt-darkGray-900;
+}

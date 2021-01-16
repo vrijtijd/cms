@@ -49,7 +49,9 @@
                     <livewire:save-content-file-order-button :repository="$repository" :archetypeSlug="$archetype->getSlug()" />
                 </x-th>
             @endif
-            <x-th class="text-left">Title</x-th>
+            <x-th class="text-left" id="title-table-heading" data-save-order-title="Click to save changes">
+                Title
+            </x-th>
             <x-th><span class="sr-only">Edit</span></x-th>
         </x-slot>
 
@@ -78,6 +80,9 @@
                             href="{{ route('repositories.preview', ['repository' => $repository->id, 'page' => $contentFile->getURI()]) }}"
                             class="font-bold text-vt-blue-800 hover:text-vt-blue-900"
                             target="contentPreview"
+                            x-data=""
+                            x-init="window.tippy($el)"
+                            data-tippy-content="Preview"
                         >
                             <x-icon-eye class="w-6 h-6"/>
                         </a>
@@ -87,22 +92,36 @@
                                 href="{{ "{$repository->website}{$contentFile->getURI()}" }}"
                                 class="font-bold text-vt-blue-800 hover:text-vt-blue-900"
                                 target="_blank"
+                                x-data=""
+                                x-init="window.tippy($el)"
+                                data-tippy-content="View on live site"
                             >
                                 <x-icon-external-link class="w-6 h-6"/>
                             </a>
                         @endif
                     @endif
+
                     <a
                         href="{{ route('repositories.content.edit', [$repository->id, $archetype->getSlug(), $contentFile->getSlug()]) }}"
                         class="text-vt-blue-800 hover:text-vt-blue-900"
+                        x-data=""
+                        x-init="window.tippy($el)"
+                        data-tippy-content="Edit"
                     >
                         <x-icon-pencil class="w-6 h-6"/>
                     </a>
-                    <livewire:delete-repository-content-button
-                        :repository="$repository"
-                        :archetypeSlug="$archetype->getSlug()"
-                        :contentFileSlug="$contentFile->getSlug()"
-                        :title="$contentFile->getName()" />
+
+                    <div
+                        x-data=""
+                        x-init="window.tippy($el)"
+                        data-tippy-content="Delete">
+
+                        <livewire:delete-repository-content-button
+                            :repository="$repository"
+                            :archetypeSlug="$archetype->getSlug()"
+                            :contentFileSlug="$contentFile->getSlug()"
+                            :title="$contentFile->getName()" />
+                    </div>
                 </x-td>
             </x-tr>
         @endforeach

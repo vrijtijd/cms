@@ -1,6 +1,9 @@
 import Sortable from 'sortablejs'
 
 document.addEventListener("DOMContentLoaded", () => {
+    const titleTableHeading = document.getElementById('title-table-heading')
+    const defaultTitle = titleTableHeading.innerText
+
     const contentFiles = new Sortable(document.querySelector('#content-table tbody'), {
         animation: 150,
         items: 'tr',
@@ -11,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
         forceFallback: true,
 
         onChange: () => {
+            titleTableHeading.innerText = titleTableHeading.dataset.saveOrderTitle
             Livewire.emit('changeMade')
         }
     })
@@ -22,5 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     Livewire.on('saveOrder', () => contentFiles.option('disabled', true))
-    Livewire.on('changesSaved', () => contentFiles.option('disabled', false))
+    Livewire.on('changesSaved', () => {
+        titleTableHeading.innerText = defaultTitle
+        contentFiles.option('disabled', false)
+    })
 })

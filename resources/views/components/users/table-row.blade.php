@@ -15,7 +15,13 @@
         @endforeach
     </x-td>
     <x-td class="flex justify-end gap-2">
-        <a href="mailto:{{ $user->email }}" class="text-vt-blue-800 hover:text-vt-blue-900">
+        <a
+            href="mailto:{{ $user->email }}"
+            class="text-vt-blue-800 hover:text-vt-blue-900"
+            x-data=""
+            x-init="window.tippy($el)"
+            data-tippy-content="Email"
+        >
             <x-icon-mail class="w-6 h-6" />
         </a>
     </x-td>
