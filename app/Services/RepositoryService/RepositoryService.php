@@ -80,6 +80,10 @@ class RepositoryService {
         $repository->delete();
     }
 
+    public function hasChanges(Repository $repository) {
+        return count($this->getChanges($repository)) > 0;
+    }
+
     public function getChanges(Repository $repository) {
         $workingCopy = $this->gitWrapper->workingCopy($this->getRepositoryDirectory($repository->name));
         $workingCopy->add('.');

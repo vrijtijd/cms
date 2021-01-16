@@ -10,6 +10,7 @@ class RepoSidebar extends Component
 {
     public $repository;
     public $archetypes;
+    public $hasChanges;
 
     /**
      * Create a new component instance.
@@ -20,6 +21,7 @@ class RepoSidebar extends Component
     {
         $this->repository = $repository;
         $this->archetypes = $repositoryService->getArchetypes($repository);
+        $this->hasChanges = $repositoryService->hasChanges($repository);
     }
 
     /**

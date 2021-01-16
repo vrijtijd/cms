@@ -37,6 +37,9 @@
                         href="{{ route('repositories.publish.form', [$repository->id]) }}"
                     >
                         Publish
+                        @if ($hasChanges)
+                            <x-icon-exclamation-circle class="text-vt-pink-400 h-6 w-6 ml-auto"/>
+                        @endif
                     </x-sidebar-link>
                 </nav>
             </div>
