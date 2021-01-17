@@ -4,10 +4,13 @@ namespace App\Http\Livewire;
 
 use App\Models\Repository;
 use App\Services\RepositoryService\RepositoryService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class FilePickerModal extends Component
 {
+    use AuthorizesRequests;
+
     public $repository;
     public $filenames;
     public $isModalOpen = false;
@@ -20,7 +23,7 @@ class FilePickerModal extends Component
 
     public function mount(Repository $repository, RepositoryService $repositoryService) {
         $this->repository = $repository;
-        $this->filenames = $repositoryService->getUploads($repository);
+        $this->refresh($repositoryService);
     }
 
     public function render()
@@ -32,7 +35,14 @@ class FilePickerModal extends Component
         $this->isModalOpen = true;
     }
 
-    public function closeFilePicker() {
+    public function closeFilePicker(RepositoryService $repositoryService) {
         $this->isModalOpen = false;
+        $this->refresh($repositoryService);
+    }
+
+    public function refresh(RepositoryService $repositoryService) {
+        $this->authorize('view', $this->repository);
+
+        $this->filenames = $repositoryService->getUploads($this->repository);
     }
 }
