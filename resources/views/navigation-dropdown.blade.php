@@ -131,6 +131,12 @@
                     {{ __('Manage Websites') }}
                 </div>
 
+                @if (Auth::user()->is_admin)
+                    <x-jet-responsive-nav-link href="{{ route('admin') }}" :active="request()->routeIs('admin*')">
+                        {{ __('Admin') }}
+                    </x-jet-responsive-nav-link>
+                @endif
+
                 @foreach (Auth::user()->currentTeam->repositories as $repository)
                     <x-jet-responsive-nav-link
                         href="{{ route('repositories.show', $repository->id) }}"
@@ -150,19 +156,17 @@
                     {{ __('Team Settings') }}
                 </x-jet-responsive-nav-link>
 
-                <x-jet-responsive-nav-link href="{{ route('teams.create') }}" :active="request()->routeIs('teams.create')">
-                    {{ __('Create New Team') }}
-                </x-jet-responsive-nav-link>
+                @if (Auth::user()->allTeams()->count() > 1)
+                    <div class="border-t border-vt-lightGray-300"></div>
 
-                <div class="border-t border-vt-lightGray-300"></div>
+                    <div class="block px-4 py-2 text-xs text-vt-darkGray-200">
+                        {{ __('Switch Teams') }}
+                    </div>
 
-                <div class="block px-4 py-2 text-xs text-vt-darkGray-200">
-                    {{ __('Switch Teams') }}
-                </div>
-
-                @foreach (Auth::user()->allTeams() as $team)
-                    <x-jet-switchable-team :team="$team" component="jet-responsive-nav-link" />
-                @endforeach
+                    @foreach (Auth::user()->allTeams() as $team)
+                        <x-jet-switchable-team :team="$team" component="jet-responsive-nav-link" />
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>
