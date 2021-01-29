@@ -51,12 +51,20 @@
         </div>
 
         @foreach ($contentFile->getFrontMatter() as $frontMatterName => $frontMatterValue)
-            <div class="col-span-6 lg:col-span-4">
-                <x-jet-label :for="$frontMatterName" :value="Str::title($frontMatterName)" />
+            @if ($frontMatterName === 'weight')
+                <input
+                    type="hidden"
+                    name="frontmatter[weight]"
+                    value="{{ $frontMatterValue }}"
+                    readonly/>
+            @else
+                <div class="col-span-6 lg:col-span-4">
+                    <x-jet-label :for="$frontMatterName" :value="Str::title($frontMatterName)" />
 
-                <x-repositories.content.front-matter-input :name="$frontMatterName" :value="$frontMatterValue"/>
-                <x-jet-input-error :for="$frontMatterName" class="mt-2" />
-            </div>
+                    <x-repositories.content.front-matter-input :name="$frontMatterName" :value="$frontMatterValue"/>
+                    <x-jet-input-error :for="$frontMatterName" class="mt-2" />
+                </div>
+            @endif
         @endforeach
 
         <x-repositories.content.body-editor name="body" :body="$contentFile->getBody()"/>
