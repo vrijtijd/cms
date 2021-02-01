@@ -23,7 +23,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="flex flex-col min-h-screen bg-gray-100">
-            @livewire('navigation-dropdown')
+            @livewire('navigation-menu')
 
             {{ $slot }}
         </div>
