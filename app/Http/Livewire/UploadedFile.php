@@ -10,7 +10,8 @@ use Livewire\WithFileUploads;
 
 class UploadedFile extends Component
 {
-    use AuthorizesRequests, WithFileUploads;
+    use AuthorizesRequests;
+    use WithFileUploads;
 
     public $isModalOpen = false;
     public $replacementFile;
@@ -18,7 +19,8 @@ class UploadedFile extends Component
     public $filename;
     public $timestamp;
 
-    public function mount(Repository $repository, string $filename) {
+    public function mount(Repository $repository, string $filename)
+    {
         $this->repository = $repository;
         $this->filename = $filename;
         $this->timestamp = strtotime('now');
@@ -29,7 +31,8 @@ class UploadedFile extends Component
         return view('livewire.uploaded-file');
     }
 
-    public function replace(RepositoryService $repositoryService) {
+    public function replace(RepositoryService $repositoryService)
+    {
         $this->authorize('view', $this->repository);
 
         $this->validate([
@@ -40,7 +43,8 @@ class UploadedFile extends Component
         $this->timestamp = strtotime('now');
     }
 
-    public function delete(RepositoryService $repositoryService) {
+    public function delete(RepositoryService $repositoryService)
+    {
         $this->authorize('view', $this->repository);
 
         $repositoryService->deleteUploadedFile($this->repository, $this->filename);

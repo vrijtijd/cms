@@ -3,7 +3,6 @@
 use Laravel\Jetstream\Features;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Jetstream Stack
@@ -33,5 +32,4 @@ return [
         // Features::api(),
         Features::teams(),
     ],
-
 ];

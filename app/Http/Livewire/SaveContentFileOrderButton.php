@@ -17,10 +17,11 @@ class SaveContentFileOrderButton extends Component
 
     protected $listeners = [
         'saveOrder',
-        'changeMade' => 'showSaveButton'
+        'changeMade' => 'showSaveButton',
     ];
 
-    public function mount(Repository $repository, string $archetypeSlug) {
+    public function mount(Repository $repository, string $archetypeSlug)
+    {
         $this->repository = $repository;
         $this->archetypeSlug = $archetypeSlug;
     }
@@ -30,11 +31,13 @@ class SaveContentFileOrderButton extends Component
         return view('livewire.save-content-file-order-button');
     }
 
-    public function showSaveButton() {
+    public function showSaveButton()
+    {
         $this->hasChanges = true;
     }
 
-    public function saveOrder(array $orderedContentFiles, RepositoryService $repositoryService) {
+    public function saveOrder(array $orderedContentFiles, RepositoryService $repositoryService)
+    {
         $this->authorize('view', $this->repository);
 
         $archetype = $repositoryService->getArchetype($this->repository, $this->archetypeSlug);

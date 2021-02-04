@@ -21,7 +21,9 @@ class FrontMatterInput extends Component
         $this->value = $value;
 
         $type = gettype($value);
-        if ($type === 'object') $type = get_class($value);
+        if ($type === 'object') {
+            $type = get_class($value);
+        }
         $this->type = $type;
     }
 

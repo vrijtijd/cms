@@ -13,7 +13,8 @@ class PullRepositoryButton extends Component
 
     public $repository;
 
-    public function mount(Repository $repository) {
+    public function mount(Repository $repository)
+    {
         $this->repository = $repository;
     }
 
@@ -22,7 +23,8 @@ class PullRepositoryButton extends Component
         return view('livewire.pull-repository-button');
     }
 
-    public function pullRepository() {
+    public function pullRepository()
+    {
         $this->authorize('view', $this->repository);
 
         dispatch(new PullRepositoryJob($this->repository));

@@ -7,7 +7,8 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
-class UserService {
+class UserService
+{
     public $userCreator;
 
     public function __construct(CreateNewUser $userCreator = null)
@@ -15,7 +16,8 @@ class UserService {
         $this->userCreator = $userCreator ?: new CreateNewUser();
     }
 
-    public function createUser(string $name, string $email, $teamId, string $role) {
+    public function createUser(string $name, string $email, $teamId, string $role)
+    {
         return DB::transaction(function () use ($name, $email, $teamId, $role) {
             $password = (string) rand();
 
@@ -24,7 +26,7 @@ class UserService {
                 'email' => $email,
                 'password' => $password,
                 'password_confirmation' => $password,
-            ], $teamId === null), function(User $user) use ($teamId, $role) {
+            ], $teamId === null), function (User $user) use ($teamId, $role) {
                 if ($teamId !== null) {
                     $team = Team::find($teamId);
 

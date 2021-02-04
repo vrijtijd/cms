@@ -3,9 +3,8 @@
 namespace App\View\Components\Repositories\Changes;
 
 use App\Models\Repository;
-use Illuminate\Support\Collection;
-use Illuminate\View\Component;
 use App\Services\RepositoryService\RepositoryService;
+use Illuminate\View\Component;
 
 class ChangeGroup extends Component
 {

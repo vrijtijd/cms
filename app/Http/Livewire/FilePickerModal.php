@@ -21,7 +21,8 @@ class FilePickerModal extends Component
         'fileUploaded' => 'closeFilePicker',
     ];
 
-    public function mount(Repository $repository, RepositoryService $repositoryService) {
+    public function mount(Repository $repository, RepositoryService $repositoryService)
+    {
         $this->repository = $repository;
         $this->refresh($repositoryService);
     }
@@ -31,16 +32,19 @@ class FilePickerModal extends Component
         return view('livewire.file-picker-modal');
     }
 
-    public function openFilePicker() {
+    public function openFilePicker()
+    {
         $this->isModalOpen = true;
     }
 
-    public function closeFilePicker(RepositoryService $repositoryService) {
+    public function closeFilePicker(RepositoryService $repositoryService)
+    {
         $this->isModalOpen = false;
         $this->refresh($repositoryService);
     }
 
-    public function refresh(RepositoryService $repositoryService) {
+    public function refresh(RepositoryService $repositoryService)
+    {
         $this->authorize('view', $this->repository);
 
         $this->filenames = $repositoryService->getUploads($this->repository);

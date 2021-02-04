@@ -13,8 +13,8 @@ class UpdateUserPassword implements UpdatesUserPasswords
     /**
      * Validate and update the user's password.
      *
-     * @param  mixed  $user
-     * @param  array  $input
+     * @param mixed $user
+     *
      * @return void
      */
     public function update($user, array $input)
@@ -23,7 +23,7 @@ class UpdateUserPassword implements UpdatesUserPasswords
             'current_password' => ['required', 'string'],
             'password' => $this->passwordRules(),
         ])->after(function ($validator) use ($user, $input) {
-            if (! Hash::check($input['current_password'], $user->password)) {
+            if (!Hash::check($input['current_password'], $user->password)) {
                 $validator->errors()->add('current_password', __('The provided password does not match your current password.'));
             }
         })->validateWithBag('updatePassword');

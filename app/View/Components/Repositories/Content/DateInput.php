@@ -24,14 +24,14 @@ class DateInput extends Component
     {
         $this->label = $label;
         $this->name = $name;
-        $this->dateName = md5($name . 'date');
-        $this->timeName = md5($name . 'time');
+        $this->dateName = md5($name.'date');
+        $this->timeName = md5($name.'time');
 
         $timezone = $date->format('P');
         $this->date = $date;
         if (old($this->dateName)) {
             $this->date = new DateTime(
-                old($this->dateName) . 'T' . old($this->timeName) . $timezone
+                old($this->dateName).'T'.old($this->timeName).$timezone
             );
         }
 

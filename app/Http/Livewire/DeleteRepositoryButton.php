@@ -28,7 +28,8 @@ class DeleteRepositoryButton extends Component
         return view('livewire.delete-repository-button');
     }
 
-    public function deleteRepository(RepositoryService $repositoryService) {
+    public function deleteRepository(RepositoryService $repositoryService)
+    {
         $this->authorize('view', $this->repository);
 
         $repositoryService->deleteRepository($this->repository);

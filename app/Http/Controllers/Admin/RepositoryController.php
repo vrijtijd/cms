@@ -11,20 +11,23 @@ use App\Services\RepositoryService\RepositoryService;
 
 class RepositoryController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('admin.repositories.index', [
             'repositories' => Repository::all(),
             'teams' => Team::all(),
         ]);
     }
 
-    public function show(Repository $repository) {
+    public function show(Repository $repository)
+    {
         return view('repositories.show', [
             'repository' => $repository,
         ]);
     }
 
-    public function store(RepositoryRequest $request) {
+    public function store(RepositoryRequest $request)
+    {
         dispatch(new CloneRepository(
             $request->input('name'),
             $request->input('url'),
@@ -35,14 +38,16 @@ class RepositoryController extends Controller
         return back();
     }
 
-    public function edit(Repository $repository) {
+    public function edit(Repository $repository)
+    {
         return view('admin.repositories.edit', [
             'repository' => $repository,
             'teams' => Team::all(),
         ]);
     }
 
-    public function update(RepositoryRequest $request, Repository $repository, RepositoryService $repositoryService) {
+    public function update(RepositoryRequest $request, Repository $repository, RepositoryService $repositoryService)
+    {
         $repositoryService->updateRepository(
             $repository,
             $request->input('name'),

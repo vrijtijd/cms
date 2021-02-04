@@ -39,7 +39,8 @@ class Team extends JetstreamTeam
         'deleted' => TeamDeleted::class,
     ];
 
-    public function repositories() {
+    public function repositories()
+    {
         return $this->hasMany(Repository::class);
     }
 }

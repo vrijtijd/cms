@@ -34,7 +34,8 @@ class DeleteRepositoryContentButton extends Component
         return view('livewire.delete-repository-content-button');
     }
 
-    public function deleteContentFile(RepositoryService $repositoryService) {
+    public function deleteContentFile(RepositoryService $repositoryService)
+    {
         $this->authorize('view', $this->repository);
 
         $repositoryService->getArchetype($this->repository, $this->archetypeSlug)

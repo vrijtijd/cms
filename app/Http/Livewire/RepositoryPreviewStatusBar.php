@@ -15,7 +15,8 @@ class RepositoryPreviewStatusBar extends Component
 
     protected $listeners = ['buildStarted' => 'refreshPreview'];
 
-    public function mount(Repository $repository) {
+    public function mount(Repository $repository)
+    {
         $this->repository = $repository;
     }
 
@@ -24,7 +25,8 @@ class RepositoryPreviewStatusBar extends Component
         return view('livewire.repository-preview-status-bar');
     }
 
-    public function refreshPreview(RepositoryService $repositoryService) {
+    public function refreshPreview(RepositoryService $repositoryService)
+    {
         $this->authorize('view', $this->repository);
 
         $repositoryService->runBuild($this->repository);

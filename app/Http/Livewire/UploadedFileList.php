@@ -19,7 +19,8 @@ class UploadedFileList extends Component
         'fileDeleted' => 'refresh',
     ];
 
-    public function mount(Repository $repository, RepositoryService $repositoryService) {
+    public function mount(Repository $repository, RepositoryService $repositoryService)
+    {
         $this->repository = $repository;
 
         $this->refresh($repositoryService);
@@ -30,7 +31,8 @@ class UploadedFileList extends Component
         return view('livewire.uploaded-file-list');
     }
 
-    public function refresh(RepositoryService $repositoryService) {
+    public function refresh(RepositoryService $repositoryService)
+    {
         $this->authorize('view', $this->repository);
 
         $this->filenames = $repositoryService->getUploads($this->repository);

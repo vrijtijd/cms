@@ -10,12 +10,14 @@ use Livewire\WithFileUploads;
 
 class UploadFileButton extends Component
 {
-    use AuthorizesRequests, WithFileUploads;
+    use AuthorizesRequests;
+    use WithFileUploads;
 
     public $repository;
     public $file;
 
-    public function mount(Repository $repository) {
+    public function mount(Repository $repository)
+    {
         $this->repository = $repository;
     }
 
@@ -24,7 +26,8 @@ class UploadFileButton extends Component
         return view('livewire.upload-file-button');
     }
 
-    public function upload(RepositoryService $repositoryService) {
+    public function upload(RepositoryService $repositoryService)
+    {
         $this->authorize('view', $this->repository);
 
         $this->validate([

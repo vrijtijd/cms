@@ -11,7 +11,8 @@ use Laravel\Jetstream\Jetstream;
 
 class UserController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('admin.users.index', [
             'users' => User::all(),
             'teams' => Team::all(),
@@ -19,7 +20,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(Request $request, UserService $userService) {
+    public function store(Request $request, UserService $userService)
+    {
         $userService->createUser(
             $request->input('name'),
             $request->input('email'),

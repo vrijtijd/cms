@@ -36,7 +36,7 @@ class Change extends Component
         );
 
         if ($topDir === 'content') {
-            $archetype = Arr::first($archetypes, function(Archetype $archetype) use ($archetypeSlug) {
+            $archetype = Arr::first($archetypes, function (Archetype $archetype) use ($archetypeSlug) {
                 return $archetype->getSlug() === $archetypeSlug;
             });
 
@@ -51,7 +51,6 @@ class Change extends Component
                 $archetype->getSlug(),
                 $contentFile->getSlug(),
             ]) : '';
-
         } elseif ($topDir === 'static' && $archetypeSlug === 'uploads') {
             $this->label = 'Upload';
             $this->fileName = $this->getTitleFromSlug(
@@ -59,7 +58,7 @@ class Change extends Component
             );
             $this->link = route('repositories.uploads.show', [
                 $repository->id,
-                $filePath
+                $filePath,
             ]);
         }
     }
@@ -74,11 +73,13 @@ class Change extends Component
         return view('components.repositories.changes.change');
     }
 
-    private function getSlugFromPath(string $path) {
+    private function getSlugFromPath(string $path)
+    {
         return (string) Str::of($path)->basename('.md');
     }
 
-    private function getTitleFromSlug(string $slug) {
+    private function getTitleFromSlug(string $slug)
+    {
         return Str::title(implode(' ', explode('-', $slug)));
     }
 }

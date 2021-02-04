@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 
 class RepositoryContentController extends Controller
 {
-
-    public function index(Repository $repository, string $archetypeSlug, RepositoryService $repositoryService) {
+    public function index(Repository $repository, string $archetypeSlug, RepositoryService $repositoryService)
+    {
         $archetype = $repositoryService->getArchetype($repository, $archetypeSlug);
 
         if (!$archetype) {
@@ -24,7 +24,8 @@ class RepositoryContentController extends Controller
         ]);
     }
 
-    public function store(Request $request, Repository $repository, string $archetypeSlug, RepositoryService $repositoryService) {
+    public function store(Request $request, Repository $repository, string $archetypeSlug, RepositoryService $repositoryService)
+    {
         $archetype = $repositoryService->getArchetype($repository, $archetypeSlug);
 
         if (!$archetype) {
@@ -43,7 +44,8 @@ class RepositoryContentController extends Controller
         ])->with('created', true);
     }
 
-    public function edit(Repository $repository, string $archetypeName, string $slug, RepositoryService $repositoryService) {
+    public function edit(Repository $repository, string $archetypeName, string $slug, RepositoryService $repositoryService)
+    {
         $archetype = $repositoryService->getArchetype($repository, $archetypeName);
 
         if (!$archetype) {
@@ -58,7 +60,8 @@ class RepositoryContentController extends Controller
         ]);
     }
 
-    public function update(Request $request, Repository $repository, string $archetypeName, string $slug, RepositoryService $repositoryService) {
+    public function update(Request $request, Repository $repository, string $archetypeName, string $slug, RepositoryService $repositoryService)
+    {
         $request->validate([
             'slug' => 'string|required',
         ]);

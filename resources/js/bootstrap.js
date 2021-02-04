@@ -30,8 +30,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 import tippy from 'tippy.js'
 
 tippy.setDefaultProps({
-    duration: [0, 0],
-    theme: 'vt',
-});
+  duration: [0, 0],
+  theme: 'vt',
+})
 
 window.tippy = tippy

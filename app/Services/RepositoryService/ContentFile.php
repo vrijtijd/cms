@@ -4,10 +4,11 @@ namespace App\Services\RepositoryService;
 
 use Carbon\Carbon;
 use DateTime;
-use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Str;
+use Symfony\Component\Yaml\Yaml;
 
-class ContentFile {
+class ContentFile
+{
     private $slug;
     private $body;
     private $frontMatter;
@@ -21,35 +22,46 @@ class ContentFile {
         $this->archetype = $archetype;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return Str::title(implode(' ', explode('-', $this->slug)));
     }
 
-    public function getSlug() {
+    public function getSlug()
+    {
         return $this->slug;
     }
 
-    public function getFrontMatter() {
-        if (!$this->frontMatter) $this->readFile();
+    public function getFrontMatter()
+    {
+        if (!$this->frontMatter) {
+            $this->readFile();
+        }
 
         return $this->frontMatter;
     }
 
-    public function getBody() {
-        if (!$this->body) $this->readFile();
+    public function getBody()
+    {
+        if (!$this->body) {
+            $this->readFile();
+        }
 
         return $this->body;
     }
 
-    public function getURI() {
+    public function getURI()
+    {
         return "/{$this->archetype->getSlug()}/{$this->slug}";
     }
 
-    public function getArchetype() {
+    public function getArchetype()
+    {
         return $this->archetype;
     }
 
-    public function update(string $slug, array $frontMatter, string $body) {
+    public function update(string $slug, array $frontMatter, string $body)
+    {
         $slug = Str::slug($slug);
         $this->frontMatter = $frontMatter;
 
@@ -96,7 +108,8 @@ EOF
         return $this;
     }
 
-    public function setWeight(int $weight) {
+    public function setWeight(int $weight)
+    {
         $frontMatter = array_merge($this->getFrontMatter(), [
             'weight' => $weight,
         ]);
@@ -108,7 +121,8 @@ EOF
         );
     }
 
-    public function applyTimezoneOffset(int $timezoneOffsetInMinutes) {
+    public function applyTimezoneOffset(int $timezoneOffsetInMinutes)
+    {
         $frontMatter = $this->getFrontMatter();
 
         foreach ($frontMatter as $key => $value) {
@@ -125,11 +139,13 @@ EOF
         );
     }
 
-    public function delete() {
+    public function delete()
+    {
         exec("rm {$this->path}");
     }
 
-    private function readFile() {
+    private function readFile()
+    {
         $fileHandle = fopen($this->path, 'r');
 
         $frontMatter = '';

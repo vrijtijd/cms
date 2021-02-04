@@ -7,7 +7,8 @@ use App\Models\Team;
 
 class TeamController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('admin.teams.index', [
             'teams' => Team::all(),
         ]);

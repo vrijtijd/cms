@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 
 class PublishRepositoryController extends Controller
 {
-    public function __invoke(Request $request, RepositoryService $repositoryService, Repository $repository) {
+    public function __invoke(Request $request, RepositoryService $repositoryService, Repository $repository)
+    {
         if ($request->method() === 'PUT') {
             $request->validate(['commitMessage' => 'string|required']);
 

@@ -11,8 +11,10 @@
         "php": "^7.3|^8.0",
         "blade-ui-kit/blade-icons": "^0.5.1",
         "blade-ui-kit/blade-ui-kit": "^0.2.0",
+        "brainmaestro/composer-git-hooks": "^2.8",
         "cpliakas/git-wrapper": "^3.0",
         "fideloper/proxy": "^4.4",
+        "friendsofphp/php-cs-fixer": "^2.18",
         "fruitcake/laravel-cors": "^2.0",
         "genealabs/laravel-caffeine": "^8.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -39,6 +41,18 @@
     "extra": {
         "laravel": {
             "dont-discover": []
+        },
+        "hooks": {
+            "pre-commit": [
+                "composer run-script php-cs-fixer",
+                "composer run-script prettier",
+                "git add $(git diff --cached --name-only --diff-filter=ACM -- '*.php')",
+                "git add $(git diff --cached --name-only --diff-filter=ACM -- 'resources/**/*.js')"
+            ],
+            "post-merge": [
+                "composer install",
+                "yarn"
+            ]
         }
     },
     "autoload": {
@@ -65,6 +79,11 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "post-install-cmd": "vendor/bin/cghooks add --ignore-lock --force-win",
+        "post-update-cmd": "vendor/bin/cghooks update",
+        "cghooks": "vendor/bin/cghooks",
+        "php-cs-fixer": "vendor/bin/php-cs-fixer fix $(git diff --cached --name-only --diff-filter=ACM -- '*.php') --stop-on-violation --config .php_cs",
+        "prettier": "yarn run prettier --write resources/js/*.js"
     }
 }

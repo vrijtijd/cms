@@ -28,8 +28,8 @@ class RepositoryRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                function($attribute, $name, $fail) use ($repositoryService) {
-                    /**
+                function ($attribute, $name, $fail) use ($repositoryService) {
+                    /*
                      * Technically, this will fail if the repository name is changed
                      * to a name that doesn't result in a slug change. However, this
                      * code is already a bit silly to write since it'll likely never
