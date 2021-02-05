@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/', function () { return view('dashboard'); })->name('dashboard');
+    Route::get('/', function () { return view('welcome'); })->name('welcome');
 
     Route::middleware('can:view,repository')->group(function () {
         Route::resource('repositories', RepositoryController::class)->only('show');
@@ -53,4 +53,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::resource('users', UserController::class)->only('index', 'store');
         Route::resource('teams', TeamController::class)->only('index');
     });
+});
+
+Route::fallback(function () {
+    return view('errors.404');
 });

@@ -3,7 +3,7 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('welcome') }}">
                         <x-icon-logo class="w-10 h-10"/>
                     </a>
                 </div>
@@ -96,12 +96,6 @@
 
     {{-- Responsive Navigation Menu --}}
     <div :class="{'block': open, 'hidden': !open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-jet-responsive-nav-link>
-        </div>
-
         <div class="pt-4 pb-1 border-t border-vt-lightGray-300">
             <div class="flex items-center px-4">
                 <div>

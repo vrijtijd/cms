@@ -3,29 +3,21 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-        <link rel="stylesheet" href="{{ mix('css/tippy.css') }}">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
-        @stack('styles')
-
-        @livewireStyles
-
-        @livewireScripts
-        <script src="{{ mix('js/app.js') }}" defer></script>
-        @stack('scripts')
     </head>
-    <body class="font-sans antialiased text-vt-darkGray-900">
-        <div class="flex flex-col min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
-
-            {{ $slot }}
+    <body class="font-sans antialiased text-vt-darkGray-900 bg-gray-100 flex flex-col items-center justify-center h-screen m-12">
+        <x-illustration-not-found class="w-full md:w-3/4 max-w-prose max-h-full mb-8"/>
+        <div class="text-3xl text-center">Page not found!</div>
+        <div class="text-center">
+            <a href="{{ route('welcome') }}" class="text-vt-pink-700 hover:text-vt-pink-800">
+                Go back
+            </a>
         </div>
-
-        @stack('modals')
     </body>
 </html>
+
