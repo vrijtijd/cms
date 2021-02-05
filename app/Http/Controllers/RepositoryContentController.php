@@ -33,7 +33,7 @@ class RepositoryContentController extends Controller
         }
 
         $contentFile = $archetype->createContentFile(
-            $request->input('title') || '',
+            $request->input('title') ?? '',
             $request->input('timezoneOffsetInMinutes'),
         );
 
