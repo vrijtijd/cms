@@ -8,13 +8,12 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
-        "blade-ui-kit/blade-icons": "^0.5.1",
+        "php": "^8.0",
+        "blade-ui-kit/blade-icons": "^1.1.1",
         "blade-ui-kit/blade-ui-kit": "^0.2.0",
         "brainmaestro/composer-git-hooks": "^2.8",
-        "cpliakas/git-wrapper": "^3.0",
         "fideloper/proxy": "^4.4",
-        "friendsofphp/php-cs-fixer": "^2.18",
+        "friendsofphp/php-cs-fixer": "^3.0.0",
         "fruitcake/laravel-cors": "^2.0",
         "genealabs/laravel-caffeine": "^8.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -23,7 +22,8 @@
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.0",
-        "symfony/yaml": "^5.2"
+        "symfony/yaml": "^5.2",
+        "symplify/git-wrapper": "^9.4"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

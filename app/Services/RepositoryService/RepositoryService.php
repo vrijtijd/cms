@@ -4,10 +4,10 @@ namespace App\Services\RepositoryService;
 
 use App\Models\Repository;
 use ErrorException;
-use GitWrapper\GitWrapper;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Livewire\TemporaryUploadedFile;
+use Symplify\GitWrapper\GitWrapper;
 
 class RepositoryService
 {
@@ -15,7 +15,7 @@ class RepositoryService
 
     public function __construct(GitWrapper $gitWrapper = null)
     {
-        $this->gitWrapper = $gitWrapper ?: new GitWrapper();
+        $this->gitWrapper = $gitWrapper ?: new GitWrapper(exec('which git'));
     }
 
     public function cloneRepository(
