@@ -83,7 +83,7 @@
         "post-install-cmd": "vendor/bin/cghooks add --ignore-lock --force-win",
         "post-update-cmd": "vendor/bin/cghooks update",
         "cghooks": "vendor/bin/cghooks",
-        "php-cs-fixer": "vendor/bin/php-cs-fixer fix $(git diff --cached --name-only --diff-filter=ACM -- '*.php') --stop-on-violation --config .php_cs",
+        "php-cs-fixer": "vendor/bin/php-cs-fixer fix $(git diff --cached --name-only --diff-filter=ACM -- '*.php') --stop-on-violation --config .php-cs-fixer.php",
         "prettier": "yarn run prettier --write resources/js/*.js"
     }
 }
